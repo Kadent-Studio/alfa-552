@@ -6,7 +6,7 @@
 
 **Audience:** prospective Venezuelan aviation students (17-18+) and credibility-checkers (parents, employers). Spanish-language.
 
-**Programs:** TMA-552 (mantenimiento aeronáutico), TMD-552 (aviónica), TCP-552 (tripulante de cabina), DV-552 (despacho de vuelo), PPA-552 (pilotos, en certificación 2027).
+**Programs:** TMA-552 (mantenimiento aeronáutico; habilitaciones en sistema motopropulsor y aviónica), TCP-552 (tripulante de cabina / auxiliar de vuelo), DV-552 (despacho de vuelo), PPA-552 (pilotos, en certificación 2027). Aviónica is a rating (habilitación) of the maintenance license, not a standalone program.
 
 **Aesthetic lane:** "cinematic aviation prestige" — dark, single-chroma. One full-colour aspirational hero; all other photography monochrome; aviation gold (`#e8b647`) is the only accent. Sharp architectural edges, hairline grid, technical mono details (tail numbers, program codes, checklist) that carry real information, not decoration.
 

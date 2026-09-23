@@ -21,20 +21,9 @@ export const programs: Program[] = [
     dur: "30 MESES",
     mode: "Presencial · hangar y aula, turno mañana o tarde",
     req: "Secundaria completa · 17 años mín. · Examen de aptitud técnica",
-    out: "Talleres OMAC, líneas aéreas, aviación general. Licencia TMA (INAC).",
+    out: "Talleres OMAC, líneas aéreas y aviación general. Con habilitaciones en sistema motopropulsor y aviónica hacia la licencia TMA (INAC).",
     fig: "Célula y motores",
     img: IMG.turbine,
-    soon: false,
-  },
-  {
-    code: "TMD-552",
-    name: "Aviónica e Instrumentos",
-    dur: "24 MESES",
-    mode: "Presencial · laboratorio de bancos de instrumentos",
-    req: "Secundaria completa · 17 años mín. · Examen de aptitud técnica",
-    out: "Aviónica de línea y taller. Licencia TMD (INAC).",
-    fig: "Panel de instrumentos",
-    img: IMG.cockpit,
     soon: false,
   },
   {
@@ -113,11 +102,11 @@ export type Cohort = {
 };
 
 export const cohorts: Cohort[] = [
-  { id: "C-26A", date: "09 MAR 26", prog: "TMA · TMD", seats: "0 / 24", status: "CERRADA", stColor: "var(--mid)", dateColor: "var(--mid)" },
+  { id: "C-26A", date: "09 MAR 26", prog: "TMA · MANTENIMIENTO", seats: "0 / 24", status: "CERRADA", stColor: "var(--mid)", dateColor: "var(--mid)" },
   { id: "C-26B", date: "07 SEP 26", prog: "TMA · CÉLULA Y MOTORES", seats: "5 / 24", status: "ÚLTIMOS CUPOS", stColor: "var(--accent)", dateColor: "var(--ink)" },
   { id: "C-26C", date: "02 NOV 26", prog: "DV · DESPACHO DE VUELO", seats: "14 / 18", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
-  { id: "C-27A", date: "11 ENE 27", prog: "TMA · TMD", seats: "24 / 24", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
-  { id: "C-27B", date: "15 MAR 27", prog: "TMD · AVIÓNICA", seats: "20 / 20", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
+  { id: "C-27A", date: "11 ENE 27", prog: "TCP · TRIPULANTE DE CABINA", seats: "24 / 24", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
+  { id: "C-27B", date: "15 MAR 27", prog: "TMA · HAB. AVIÓNICA", seats: "20 / 20", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
   { id: "C-27C", date: "JUL 27 (EST.)", prog: "PPA · PILOTOS, APERTURA", seats: "LISTA DE ESPERA", status: "PREINSCRIPCIÓN", stColor: "var(--accent)", dateColor: "var(--accent)" },
 ];
 
@@ -127,22 +116,29 @@ export const posts: Post[] = [
   {
     cat: "MANTENIMIENTO",
     date: "12 AGO 2026",
-    title: "Dentro del overhaul de un PT6A",
-    lede: "Qué pasa cuando una turbina entra al taller: desmontaje, inspección boroscópica y los límites de tolerancia que deciden si vuela.",
+    title: "Técnico en mantenimiento: quien decide si una aeronave vuela",
+    lede: "Inspecciona, repara y certifica célula, motores y sistemas en talleres OMAC y líneas aéreas. Con sus habilitaciones (sistema motopropulsor y aviónica) firma la aeronavegabilidad: sin su visto bueno, el avión no despega.",
     img: IMG.turbine,
   },
   {
-    cat: "CERTIFICACIÓN",
-    date: "28 JUL 2026",
-    title: "Qué evalúa el INAC en el examen TMA",
-    lede: "Estructura del examen de licencia, temarios normados y cómo preparamos a cada cohorte para rendirlo a la primera.",
-    img: IMG.hangar,
+    cat: "CABINA",
+    date: "05 AGO 2026",
+    title: "Auxiliar de vuelo: la seguridad antes que el servicio",
+    lede: "El tripulante de cabina es la autoridad de seguridad a bordo. Ejecuta evacuaciones, primeros auxilios y manejo de emergencias, y a la vez cuida la experiencia del pasajero en aerolíneas comerciales.",
+    img: IMG.cabinCrew,
   },
   {
     cat: "OPERACIONES",
-    date: "10 JUL 2026",
-    title: "Despacho de vuelo: el trabajo que no se ve",
-    lede: "Combustible, peso y balance, meteorología. El despachador firma antes que el capitán. Así se forma ese criterio.",
+    date: "28 JUL 2026",
+    title: "Despachador de vuelo: firma antes que el capitán",
+    lede: "Desde el centro de control de operaciones planifica ruta, combustible, peso y balance, y sigue el clima. Comparte con el comandante la responsabilidad legal de cada vuelo que despacha.",
     img: IMG.cockpit,
+  },
+  {
+    cat: "PILOTOS",
+    date: "10 JUL 2026",
+    title: "Piloto de avión: el mando en la cabina (próximamente)",
+    lede: "Conduce la aeronave y toma las decisiones de vuelo con criterio técnico y seguridad operacional. El programa de formación de pilotos está en proceso de certificación ante el INAC, con lista de espera abierta.",
+    img: IMG.airlinerSky,
   },
 ];

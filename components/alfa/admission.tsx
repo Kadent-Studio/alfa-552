@@ -99,7 +99,6 @@ export function Admission() {
                 className="border border-[var(--line)] bg-[var(--surface)] text-[var(--ink)]"
               >
                 <SelectItem value="TMA">TMA-552 · MANTENIMIENTO AERONÁUTICO</SelectItem>
-                <SelectItem value="TMD">TMD-552 · AVIÓNICA E INSTRUMENTOS</SelectItem>
                 <SelectItem value="TCP">TCP-552 · TRIPULANTE DE CABINA</SelectItem>
                 <SelectItem value="DV">DV-552 · DESPACHO DE VUELO</SelectItem>
                 <SelectItem value="PPA">PPA-552 · PILOTO (LISTA DE ESPERA)</SelectItem>

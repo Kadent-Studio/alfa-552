@@ -61,7 +61,7 @@ function answerProgramas(): BotReply {
   return {
     icon: "programas",
     text:
-      "Formamos en cinco programas bajo las Regulaciones Aeronáuticas Venezolanas (INAC · CIAC 552):\n\n" +
+      "Formamos en cuatro programas bajo las Regulaciones Aeronáuticas Venezolanas (INAC · CIAC 552):\n\n" +
       lines.join("\n") +
       "\n\n¿Sobre cuál quieres detalle?",
     chips: ["Requisitos de TMA-552", "Duración de cada programa", "Ver el pensum"],
@@ -184,7 +184,7 @@ function answerInac(): BotReply {
     icon: "inac",
     text:
       "CIA ALFA 552 es un Centro de Instrucción Aeronáutica certificado por el INAC (Instituto Nacional de Aeronáutica Civil) bajo el código CIAC 552, " +
-      "fundado en 2011 y con más de 1.240 egresados. Todas nuestras licencias son emitidas conforme a las Regulaciones Aeronáuticas Venezolanas.",
+      "fundado en 2011 y con más de 1.240 egresados. Las licencias las emite el INAC: nuestros programas te preparan para sus evaluaciones conforme a las Regulaciones Aeronáuticas Venezolanas.",
     chips: ["Programas disponibles", "Ver el pensum"],
   };
 }
@@ -192,9 +192,8 @@ function answerInac(): BotReply {
 /** Try to detect a specific program mentioned by code or keyword. */
 function answerProgramaEspecifico(q: string): BotReply | null {
   const map: { keys: string[]; code: string }[] = [
-    { keys: ["tma", "mantenimiento", "motor", "turbina", "celula"], code: "TMA-552" },
-    { keys: ["tmd", "avionica", "instrumento", "electric"], code: "TMD-552" },
-    { keys: ["tcp", "cabina", "tripulante", "azafat", "aeromoza"], code: "TCP-552" },
+    { keys: ["tma", "mantenimiento", "motor", "turbina", "celula", "avionica", "instrumento", "electric", "habilitacion"], code: "TMA-552" },
+    { keys: ["tcp", "cabina", "tripulante", "azafat", "aeromoza", "auxiliar de vuelo"], code: "TCP-552" },
     { keys: ["dv", "despacho", "despachador"], code: "DV-552" },
   ];
   for (const m of map) {

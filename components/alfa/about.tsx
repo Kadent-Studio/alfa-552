@@ -13,9 +13,10 @@ export function About() {
         <div className="flex flex-col justify-center gap-[clamp(2rem,4vw,3.25rem)] px-5 py-[clamp(4.5rem,8vw,7rem)] md:border-r md:border-[var(--hairline)] md:px-12">
         <h2
           data-reveal
-          className="max-w-[15ch] text-[clamp(32px,4vw,56px)] font-bold leading-[1.02] tracking-[-0.03em]"
+          className="max-w-[24ch] text-[clamp(30px,3.6vw,50px)] font-bold leading-[1.04] tracking-[-0.03em]"
         >
-          Una operación seria forma gente seria.
+          Una operación con estándares de calidad y seguridad forma profesionales
+          de alto valor y cotización en el mercado aeronáutico.
         </h2>
 
         <div
@@ -24,15 +25,19 @@ export function About() {
           className="max-w-[62ch] space-y-4 text-[15px] leading-relaxed text-[var(--lt)] md:columns-2 md:gap-10 md:space-y-0"
         >
           <p className="md:mb-4">
-            ALFA 552 opera bajo el mismo criterio que un taller certificado:
-            procedimiento, trazabilidad y cero tolerancia a la improvisación. Cada
-            programa está alineado a los requisitos de licencia del INAC bajo las
+            El centro de instrucción aeronáutica ALFA 552 opera bajo los criterios
+            de las normas nacionales e internacionales dictaminadas por la
+            autoridad aeronáutica. Cada programa de formación está alineado a los
+            requisitos para la obtención de la licencia certificada emitida por el
+            Instituto Nacional de Aeronáutica Civil, bajo el cumplimiento de las
             Regulaciones Aeronáuticas Venezolanas.
           </p>
           <p>
-            Nuestros instructores vienen de línea, no solo de aula. El plan de
-            estudios combina teoría normada con práctica sobre aeronaves y bancos
-            de instrumentos reales.
+            Nuestros instructores tienen una formación forjada en una larga
+            trayectoria en líneas aéreas y talleres de mantenimiento aeronáutico,
+            donde sus conocimientos son de gran valor y están apegados a los
+            programas de formación de nuestra organización. El plan de estudios
+            combina prácticas reales en campo con teoría en aula.
           </p>
         </div>
 

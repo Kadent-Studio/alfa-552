@@ -32,7 +32,7 @@ export function Programs() {
           data-reveal
           className="mt-5 max-w-[18ch] text-[clamp(30px,3.4vw,46px)] font-bold leading-[1.04] tracking-[-0.03em]"
         >
-          Cinco líneas de formación, una sola norma.
+          Cuatro líneas de formación, una sola norma.
         </h2>
       </div>
 

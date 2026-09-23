@@ -35,10 +35,11 @@ export function Hero() {
           style={{ transitionDelay: "0.08s" }}
           className="max-w-[22ch] text-[clamp(38px,5.4vw,80px)] font-extrabold leading-[0.98] tracking-[-0.03em]"
         >
-          Se entra con vocación.
+          Se ingresa con vocación.
           <br />
           Se sale con{" "}
-          <span className="text-[var(--accent-text)]">licencia.</span>
+          <span className="text-[var(--accent-text)]">profesión</span> de la
+          aviación.
         </h1>
 
         <p
@@ -46,8 +47,9 @@ export function Hero() {
           style={{ transitionDelay: "0.16s" }}
           className="mt-7 max-w-[52ch] text-[16px] leading-relaxed text-[var(--lt)] md:text-[17px]"
         >
-          Mantenimiento, aviónica, cabina y despacho bajo norma INAC. Pilotos, en
-          camino. Horas reales de hangar desde el primer ciclo.
+          Técnico en mantenimiento de aeronaves, auxiliares de vuelo (tripulantes
+          de cabina) y despachadores de vuelo bajo norma INAC. Próximamente,
+          formación de pilotos de avión.
         </p>
 
         <div

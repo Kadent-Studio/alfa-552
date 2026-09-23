@@ -67,6 +67,9 @@ export type PensumProgram = {
     img: keyof typeof IMG;
   };
   ciclos: Cycle[];
+  /** Independent license ratings (habilitaciones) trained within the program.
+   *  Rendered as a dedicated band; only Mantenimiento carries them today. */
+  habilitaciones?: { code: string; name: string; detail: string }[];
   /** Program not yet certified: shows a waitlist panel instead of a malla. */
   soon?: boolean;
 };
@@ -182,80 +185,21 @@ export const programs: PensumProgram[] = [
         ],
       },
     ],
-  },
-
-  // ==========================================================================
-  {
-    code: "TMD-552",
-    name: "Aviónica e Instrumentos",
-    short: "Aviónica",
-    salida: "Aviónica de línea y de taller certificado.",
-    licencia: "Licencia TMD · INAC",
-    duracion: "24 meses",
-    meses: 24,
-    modalidad: "Presencial · laboratorio de bancos",
-    turnos: "Mañana o tarde",
-    equipo: "Banco de instrumentos · glass cockpit · radar",
-    campus: "Laboratorio de Aviónica · Campus Caracas",
-    img: "cockpit",
-    insignia: {
-      courseCode: "TMD-305",
-      title: "De la aguja al vidrio: la cabina de cristal",
-      body: "El salto que vive la aviación hoy. Arquitectura de las pantallas, buses de datos, degradación controlada y qué hacer cuando la información en cabina no coincide. Se trabaja sobre un banco de glass cockpit funcional.",
-      img: "cockpit",
-    },
-    ciclos: [
+    habilitaciones: [
       {
-        n: "01",
-        name: "Fundamentos eléctricos",
-        meses: "Meses 1-6",
-        foco: "Del electrón al diagrama. La base que separa al aviónico del electricista.",
-        courses: [
-          { code: "TMD-101", name: "Matemática y física aplicada", teoria: 56, practica: 24, uc: 4, type: "teorica" },
-          { code: "TMD-102", name: "Electricidad y electrónica básica", teoria: 40, practica: 56, uc: 5, type: "taller" },
-          { code: "TMD-103", name: "Dibujo y diagramas eléctricos", teoria: 24, practica: 40, uc: 3, type: "taller" },
-          { code: "TMD-104", name: "Inglés técnico aeronáutico I", teoria: 48, practica: 16, uc: 3, type: "teorica" },
-          { code: "TMD-105", name: "Regulaciones RAV y factores humanos", teoria: 48, practica: 0, uc: 3, type: "teorica" },
-        ],
+        code: "HAB-01",
+        name: "Sistema motopropulsor",
+        detail: "Motores recíprocos y accesorios; motores a turbina y accesorios.",
       },
       {
-        n: "02",
-        name: "Sistemas eléctricos",
-        meses: "Meses 7-12",
-        foco: "Generación, distribución e instrumentos sobre banco de pruebas.",
-        courses: [
-          { code: "TMD-201", name: "Sistemas eléctricos de aeronave", teoria: 48, practica: 64, uc: 5, type: "taller" },
-          { code: "TMD-202", name: "Electrónica digital y microprocesadores", teoria: 40, practica: 48, uc: 4, type: "taller" },
-          { code: "TMD-203", name: "Instrumentos de vuelo y motor", teoria: 40, practica: 48, uc: 4, type: "taller" },
-          { code: "TMD-204", name: "Banco de instrumentos · práctica", teoria: 16, practica: 72, uc: 4, type: "practica" },
-          { code: "TMD-205", name: "Inglés técnico aeronáutico II", teoria: 32, practica: 24, uc: 2, type: "teorica" },
-        ],
+        code: "HAB-02",
+        name: "Sistema motopropulsor · Hélice",
+        detail: "Hélices y sistemas de paso variable.",
       },
       {
-        n: "03",
-        name: "Comunicación y navegación",
-        meses: "Meses 13-18",
-        foco: "Todo lo que la aeronave usa para hablar, verse y encontrar su ruta.",
-        courses: [
-          { code: "TMD-301", name: "Sistemas de comunicación (COM)", teoria: 40, practica: 48, uc: 4, type: "taller" },
-          { code: "TMD-302", name: "Sistemas de navegación (NAV)", teoria: 40, practica: 48, uc: 4, type: "taller" },
-          { code: "TMD-303", name: "Radar y sistemas de vigilancia", teoria: 32, practica: 40, uc: 3, type: "taller" },
-          { code: "TMD-304", name: "Piloto automático y control de vuelo", teoria: 32, practica: 48, uc: 4, type: "taller" },
-          { code: "TMD-305", name: "Cabina de cristal (glass cockpit)", teoria: 24, practica: 56, uc: 4, type: "taller", insignia: true },
-        ],
-      },
-      {
-        n: "04",
-        name: "Integración y licencia",
-        meses: "Meses 19-24",
-        foco: "Diagnóstico integral, taller real y examen del INAC.",
-        courses: [
-          { code: "TMD-401", name: "Diagnóstico y localización de fallas", teoria: 24, practica: 72, uc: 5, type: "practica", insignia: true },
-          { code: "TMD-402", name: "Simulación de sistemas integrados", teoria: 16, practica: 64, uc: 3, type: "simulador" },
-          { code: "TMD-403", name: "Práctica profesional en taller aviónico", teoria: 0, practica: 140, uc: 6, type: "practica", insignia: true },
-          { code: "TMD-404", name: "Registros y aeronavegabilidad aviónica", teoria: 40, practica: 16, uc: 3, type: "teorica" },
-          { code: "TMD-405", name: "Evaluación de licencia TMD · INAC", teoria: 8, practica: 0, uc: 2, type: "examen" },
-        ],
+        code: "HAB-03",
+        name: "Aviónica",
+        detail: "Instrumentos, sistemas eléctricos y cabina de cristal.",
       },
     ],
   },

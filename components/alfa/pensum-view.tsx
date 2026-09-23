@@ -97,6 +97,9 @@ export function PensumView() {
         <>
           <Bento program={program} reduce={!!reduce} />
           <OutcomeBand program={program} />
+          {program.habilitaciones && program.habilitaciones.length > 0 && (
+            <Habilitaciones program={program} />
+          )}
           <Insignia program={program} reduce={!!reduce} />
           <Malla program={program} reduce={!!reduce} />
         </>
@@ -323,7 +326,7 @@ function OutcomeBand({ program }: { program: PensumProgram }) {
         </span>
         <div className="flex flex-col gap-2">
           <span className="text-[clamp(22px,2.6vw,32px)] font-bold leading-[1.05] tracking-[-0.02em]">
-            Egresas con {program.licencia}.
+            Preparado para optar a la {program.licencia}.
           </span>
           <span className="max-w-[46ch] text-[14px] leading-relaxed text-[var(--lt)]">
             {program.salida}
@@ -337,6 +340,49 @@ function OutcomeBand({ program }: { program: PensumProgram }) {
         VER FECHAS DE INGRESO
         <ArrowRight size={14} strokeWidth={1.75} aria-hidden />
       </a>
+    </div>
+  );
+}
+
+// ============================================================================
+// Habilitaciones (license ratings trained within the program)
+// ============================================================================
+function Habilitaciones({ program }: { program: PensumProgram }) {
+  const items = program.habilitaciones ?? [];
+  return (
+    <div className="flex flex-col border border-t-0 border-[var(--hairline)]">
+      <div className="flex flex-col gap-2 border-b border-[var(--hairline)] p-6 md:p-9">
+        <span className="mono text-[10px] tracking-[0.16em] text-[var(--accent-text)]">
+          HABILITACIONES DE LA LICENCIA
+        </span>
+        <p className="max-w-[64ch] text-[14px] leading-relaxed text-[var(--lt)]">
+          Cada habilitación es un programa de formación independiente que amplía
+          el alcance de la licencia de Técnico de Mantenimiento Aeronáutico ante
+          el INAC.
+        </p>
+      </div>
+      <div className="grid md:grid-cols-3">
+        {items.map((h, i) => (
+          <div
+            key={h.code}
+            className={`flex flex-col gap-3 p-6 md:p-8 ${
+              i < items.length - 1
+                ? "border-b border-[var(--hairline)] md:border-b-0 md:border-r"
+                : ""
+            }`}
+          >
+            <span className="mono text-[11px] tracking-[0.12em] text-[var(--mid)]">
+              {h.code}
+            </span>
+            <h4 className="text-[16px] font-semibold leading-snug tracking-[-0.01em]">
+              {h.name}
+            </h4>
+            <p className="text-[13px] leading-relaxed text-[var(--lt)]">
+              {h.detail}
+            </p>
+          </div>
+        ))}
+      </div>
     </div>
   );
 }
