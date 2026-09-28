@@ -268,6 +268,213 @@ html {
   }
 }
 
+/* ---- Location: sede list ---------------------------------------------- */
+.alfa-site {
+  transition: transform 160ms cubic-bezier(0.23, 1, 0.32, 1);
+  touch-action: manipulation;
+}
+.alfa-site:active {
+  transform: scale(0.985);
+}
+.alfa-site:focus-visible {
+  outline: 1px solid var(--accent);
+  outline-offset: 4px;
+}
+/* Selection marker: a gold square that grows in; never from scale(0). */
+.alfa-site__mark {
+  width: 8px;
+  height: 8px;
+  border: 1px solid var(--line);
+  transform: scale(0.75);
+  transition:
+    transform 240ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 200ms ease,
+    border-color 200ms ease;
+}
+.alfa-site__name {
+  color: var(--lt);
+  transition: color 200ms ease;
+}
+.alfa-site__code {
+  color: var(--mid);
+  transition: color 200ms ease;
+}
+.alfa-site[aria-pressed="true"] .alfa-site__mark {
+  background: var(--accent);
+  border-color: var(--accent);
+  transform: scale(1);
+}
+.alfa-site[aria-pressed="true"] .alfa-site__name {
+  color: var(--ink);
+}
+.alfa-site[aria-pressed="true"] .alfa-site__code {
+  color: var(--accent-text);
+}
+@media (hover: hover) and (pointer: fine) {
+  .alfa-site:hover .alfa-site__name {
+    color: var(--ink);
+  }
+  .alfa-site:hover .alfa-site__mark {
+    border-color: var(--accent);
+  }
+}
+
+/* Detail panel swap: short blurred crossfade bridges the two states. */
+@keyframes alfa-swap {
+  from {
+    opacity: 0;
+    filter: blur(3px);
+    transform: translateY(6px);
+  }
+}
+.alfa-swap {
+  animation: alfa-swap 280ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Directions CTA: arrow nudges toward where it takes you. */
+.alfa-directions:active {
+  transform: scale(0.98);
+}
+.alfa-directions__icon {
+  transition: transform 220ms cubic-bezier(0.23, 1, 0.32, 1);
+}
+@media (hover: hover) and (pointer: fine) {
+  .alfa-directions:hover .alfa-directions__icon {
+    transform: translate(2px, -2px);
+  }
+}
+
+/* ---- Location: Leaflet skin ------------------------------------------- */
+#alfa-root .alfa-map.leaflet-container {
+  background: var(--surface);
+  font-family: var(--font-mono), ui-monospace, monospace;
+  outline: none;
+}
+/* Tiles only: markers and controls live in other panes and keep their color. */
+#alfa-root .alfa-map .leaflet-tile-pane {
+  filter: grayscale(1) invert(1) brightness(0.82) contrast(0.92);
+}
+:root[data-theme="light"] #alfa-root .alfa-map .leaflet-tile-pane {
+  filter: grayscale(1) brightness(1.02) contrast(0.9);
+}
+.alfa-map-loading {
+  transition: opacity 400ms ease;
+}
+.alfa-map-loading[data-ready] {
+  opacity: 0;
+}
+
+#alfa-root .alfa-map .leaflet-control-zoom {
+  border: 1px solid var(--line);
+  border-radius: 0;
+  box-shadow: none;
+  margin: 16px 16px 0 0;
+}
+#alfa-root .alfa-map .leaflet-control-zoom a {
+  width: 44px;
+  height: 44px;
+  line-height: 44px;
+  border-radius: 0;
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  color: var(--ink);
+  border-bottom: 1px solid var(--line);
+  font-weight: 400;
+  transition:
+    color 200ms ease,
+    background-color 200ms ease;
+}
+#alfa-root .alfa-map .leaflet-control-zoom a:last-child {
+  border-bottom: 0;
+}
+#alfa-root .alfa-map .leaflet-control-zoom a:hover {
+  color: var(--accent-text);
+}
+#alfa-root .alfa-map .leaflet-control-zoom a:active {
+  transform: scale(0.96);
+}
+#alfa-root .alfa-map .leaflet-control-attribution {
+  background: color-mix(in srgb, var(--bg) 80%, transparent);
+  color: var(--mid);
+  font-size: 10px;
+  padding: 2px 8px;
+}
+#alfa-root .alfa-map .leaflet-control-attribution a {
+  color: var(--lt);
+}
+
+/* Markers: square gold core (sharp-edge system); the ring only pulses on the
+   active sede, so the motion marks real state rather than decorating. */
+.alfa-pin-wrap {
+  background: none;
+  border: 0;
+}
+.alfa-pin {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 28px;
+  height: 28px;
+  cursor: pointer;
+}
+.alfa-pin::after {
+  content: attr(data-code);
+  position: absolute;
+  left: calc(100% + 4px);
+  top: 50%;
+  transform: translateY(-50%);
+  padding: 3px 6px;
+  font-family: var(--font-mono), ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.14em;
+  white-space: nowrap;
+  color: var(--ink);
+  background: color-mix(in srgb, var(--bg) 88%, transparent);
+  border: 1px solid var(--line);
+  transition:
+    color 200ms ease,
+    border-color 200ms ease;
+}
+.alfa-pin__core {
+  width: 10px;
+  height: 10px;
+  background: var(--mid);
+  border: 2px solid var(--bg);
+  transform: rotate(45deg) scale(0.9);
+  transition:
+    transform 300ms cubic-bezier(0.23, 1, 0.32, 1),
+    background-color 200ms ease;
+}
+.alfa-pin__ring {
+  position: absolute;
+  inset: 4px;
+  border: 1px solid var(--accent);
+  opacity: 0;
+  transform: rotate(45deg) scale(0.6);
+}
+.alfa-pin[data-active] .alfa-pin__core {
+  background: var(--accent);
+  transform: rotate(45deg) scale(1.3);
+}
+.alfa-pin[data-active]::after {
+  color: var(--accent-text);
+  border-color: var(--accent);
+}
+@media (prefers-reduced-motion: no-preference) {
+  .alfa-pin[data-active] .alfa-pin__ring {
+    animation: alfa-pin-pulse 2.2s cubic-bezier(0.23, 1, 0.32, 1) infinite;
+  }
+}
+@keyframes alfa-pin-pulse {
+  0% {
+    opacity: 0.9;
+    transform: rotate(45deg) scale(0.6);
+  }
+  100% {
+    opacity: 0;
+    transform: rotate(45deg) scale(1.9);
+  }
+}
+
 /* ---- Reduced motion --------------------------------------------------- */
 @media (prefers-reduced-motion: reduce) {
   html {

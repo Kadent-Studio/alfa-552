@@ -12,6 +12,7 @@ import { Programs } from "@/components/alfa/programs";
 import { Cohorts } from "@/components/alfa/cohorts";
 import { Blog } from "@/components/alfa/blog";
 import { Admission } from "@/components/alfa/admission";
+import { Location } from "@/components/alfa/location";
 import { SiteFooter } from "@/components/alfa/site-footer";
 
 export default function Home() {
@@ -30,6 +31,7 @@ export default function Home() {
         <Cohorts />
         <Blog />
         <Admission />
+        <Location />
       </main>
       <SiteFooter />
     </div>
