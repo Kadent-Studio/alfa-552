@@ -110,18 +110,18 @@ function answerRequisitos(): BotReply {
 }
 
 function answerPensum(): BotReply {
-  const tma = pensumPrograms.find((p) => p.code === "TMA-552");
+  const tma = pensumPrograms.find((p) => p.code === "RAV 147");
   let detalle = "";
-  if (tma) {
-    const s = statsFor(tma);
+  if (tma?.curriculum) {
+    const s = statsFor(tma.curriculum);
     detalle =
-      `Por ejemplo, ${tma.code} tiene ${s.asignaturas} asignaturas en ${s.ciclos} ciclos, ` +
-      `${s.horasTotal} horas totales y ${s.practicaPct}% de práctica en hangar.\n\n`;
+      `Por ejemplo, la ruta de Técnico en Mantenimiento Aeronáutico suma ${s.hours} horas curriculares: ` +
+      "400 horas generales y 700 horas de habilitación de Célula. El documento también indica un año de práctica en un puesto de trabajo.\n\n";
   }
   return {
     icon: "pensum",
     text:
-      "El pensum completo (malla curricular por ciclos, horas de teoría y práctica, y unidades crédito) está en la sección Pensum.\n\n" +
+      "En la sección Pensum puedes consultar las materias y las horas de cada ruta. Las horas de teoría y práctica se separan solo cuando el documento fuente lo especifica.\n\n" +
       detalle +
       "Ábrela en /pensum para ver cada programa a detalle.",
     chips: ["Duración de cada programa", "Requisitos de admisión"],

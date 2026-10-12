@@ -7,12 +7,12 @@ import { Grain } from "@/components/alfa/grain";
 import { SiteHeader } from "@/components/alfa/site-header";
 import { SiteFooter } from "@/components/alfa/site-footer";
 import { PensumView } from "@/components/alfa/pensum-view";
-import { programs, statsFor } from "@/components/alfa/pensum-data";
+import { programs } from "@/components/alfa/pensum-data";
 import { SITE_URL } from "@/lib/seo/site";
 
 const PAGE_TITLE = "Pensum";
 const PAGE_DESCRIPTION =
-  "Malla curricular de CIA ALFA 552: asignaturas, ciclos y horas por carrera hacia tu licencia INAC. Mantenimiento, cabina y despacho.";
+  "Conoce las materias y horas de formación de CIA ALFA 552: Mantenimiento Aeronáutico, habilitaciones TMA, Despacho de Vuelo y Tripulante de Cabina.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -27,20 +27,6 @@ export const metadata: Metadata = {
   },
 };
 
-// Aggregate figures across the certified programs (`soon` ones carry no hours yet).
-const active = programs.filter((p) => !p.soon);
-const totals = active.reduce(
-  (acc, p) => {
-    const s = statsFor(p);
-    acc.asignaturas += s.asignaturas;
-    acc.horasPractica += s.horasPractica;
-    acc.horas += s.horasTotal;
-    return acc;
-  },
-  { asignaturas: 0, horasPractica: 0, horas: 0 },
-);
-const practicaPct = Math.round((totals.horasPractica / totals.horas) * 100);
-
 const JSON_LD = {
   "@context": "https://schema.org",
   "@type": "ItemList",
@@ -50,14 +36,12 @@ const JSON_LD = {
     item: {
       "@type": "Course",
       name: p.name,
-      description: p.salida,
-      timeRequired: `P${p.meses}M`,
+      description: p.summary,
       provider: {
         "@type": "EducationalOrganization",
         name: "CIA ALFA 552",
         url: SITE_URL,
       },
-      hasCredential: p.licencia,
     },
   })),
 };
@@ -77,7 +61,7 @@ export default function PensumPage() {
         {/* ---- Intro ------------------------------------------------------ */}
         <section id="sec-pensum-top" className="border-b border-[var(--hairline)]">
           <div className="alfa-container flex flex-col gap-6 pt-[clamp(3.5rem,7vw,6rem)] pb-[clamp(2.5rem,4vw,3.5rem)]">
-            <span className="eyebrow">Pensum · Malla curricular 2026-2027</span>
+            <span className="eyebrow">Pensum · Rutas de formación aeronáutica</span>
             <h1
               data-reveal
               className="max-w-[20ch] text-[clamp(34px,4.6vw,64px)] font-extrabold leading-[1.0] tracking-[-0.035em]"
@@ -86,22 +70,17 @@ export default function PensumPage() {
               <span className="text-[var(--accent-text)]">clase por clase.</span>
             </h1>
             <p className="max-w-[60ch] text-[16px] leading-relaxed text-[var(--lt)]">
-              Cada programa es una ruta crítica de asignaturas, del aula al hangar
-              y de ahí al examen del INAC. Elige una carrera para ver su resumen,
-              su materia insignia y la malla completa, ciclo por ciclo.
+              Explora las materias y horas de cada ruta. El desglose sigue el
+              pensum entregado por la escuela y diferencia la formación general,
+              las habilitaciones técnicas y la instrucción práctica indicada.
             </p>
 
             {/* Aggregate figures (count up on view) */}
             <div className="mt-2 flex flex-wrap gap-x-10 gap-y-5 border-t border-[var(--hairline)] pt-6">
-              <IntroStat count={active.length} label="PROGRAMAS CON MALLA" />
-              <IntroStat count={totals.asignaturas} label="ASIGNATURAS" />
-              <IntroStat
-                count={totals.horasPractica}
-                suffix=" H"
-                label="EN PRÁCTICA REAL"
-                gold
-              />
-              <IntroStat count={practicaPct} suffix="%" label="DEL PLAN ES PRÁCTICA" gold />
+              <IntroStat count={programs.length} label="RUTAS DE FORMACIÓN" />
+              <IntroStat count={3} label="HABILITACIONES TMA" />
+              <IntroStat count={1100} suffix=" H" label="TMA + CÉLULA" gold />
+              <IntroStat count={322} suffix=" H" label="DESPACHO · TEORÍA" />
             </div>
           </div>
         </section>

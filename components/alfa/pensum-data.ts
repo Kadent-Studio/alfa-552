@@ -1,378 +1,329 @@
-// Pensum / malla curricular for CIA ALFA 552 (/pensum).
-// Illustrative but structured for the real thing: each program is broken into
-// cycles (ciclos), each cycle into subjects (asignaturas) with theory + shop
-// hours, credit units (UC) and a pedagogical type. Totals and the theory/shop
-// distribution are DERIVED from the courses in the view, so this file stays the
-// single source of truth. Gold is reserved for hands-on practice (the hours in
-// the hangar), matching the single-chroma system of the rest of the site.
+// Currícula y horas transcritas del documento "PENSUM RAV 147 Y 141".
+// Las horas por asignatura se muestran como aparecen en la fuente. La fuente
+// no desglosa teoría y práctica por materia, así que no se infiere esa división.
 
 import { IMG } from "./images";
 
-/** Pedagogical nature of a subject. Drives its neutral-ladder tone; only
- *  `practica` rides the gold accent (the hours that matter most). */
-export type CourseType =
-  | "teorica"
-  | "taller"
-  | "simulador"
-  | "practica"
-  | "examen";
-
-export type PensumCourse = {
-  code: string;
+export type Module = {
   name: string;
-  /** Classroom hours. */
-  teoria: number;
-  /** Shop / hangar / lab hours. */
-  practica: number;
-  /** Unidades crédito. */
-  uc: number;
-  type: CourseType;
-  /** Signature subject of the program (shown with a gold marker). */
-  insignia?: boolean;
+  hours: number;
+  /** La fuente identifica expresamente el módulo como práctica. */
+  practice?: boolean;
+  /** La fuente describe una combinación de materias y prácticas. */
+  mixed?: boolean;
 };
 
-export type Cycle = {
-  /** Two-digit ordinal, e.g. "01". */
-  n: string;
+export type CurriculumBlock = {
   name: string;
-  /** Month span, e.g. "Meses 1-6". */
-  meses: string;
-  /** One line on what the cycle builds. */
-  foco: string;
-  courses: PensumCourse[];
+  description: string;
+  modules: Module[];
 };
+
+export type Curriculum = {
+  name: string;
+  short: string;
+  hours: number;
+  hoursLabel: string;
+  hoursDetail: string;
+  summary: string;
+  blocks: CurriculumBlock[];
+  note?: string;
+};
+
+export type Qualification = Curriculum & { code: string };
 
 export type PensumProgram = {
   code: string;
   name: string;
-  /** Short label for the selector, e.g. "Mantenimiento". */
   short: string;
-  /** One-line professional outcome. */
-  salida: string;
-  licencia: string;
-  duracion: string;
-  /** Number of months as an integer, for the bento count. */
-  meses: number;
-  modalidad: string;
-  turnos: string;
-  /** Signature equipment / platform the program trains on. */
-  equipo: string;
-  campus: string;
-  img: keyof typeof IMG;
-  /** Editorial "materia insignia" band. */
-  insignia: {
-    courseCode: string;
-    title: string;
-    body: string;
-    img: keyof typeof IMG;
-  };
-  ciclos: Cycle[];
-  /** Independent license ratings (habilitaciones) trained within the program.
-   *  Rendered as a dedicated band; only Mantenimiento carries them today. */
-  habilitaciones?: { code: string; name: string; detail: string }[];
-  /** Program not yet certified: shows a waitlist panel instead of a malla. */
-  soon?: boolean;
+  regulation: string;
+  summary: string;
+  image: keyof typeof IMG;
+  curriculum?: Curriculum;
+  qualifications?: Qualification[];
+  outcome: string;
 };
 
-export const TYPE_META: Record<
-  CourseType,
-  { label: string; code: string; priority: boolean }
-> = {
-  teorica: { label: "Teoría", code: "TEO", priority: false },
-  taller: { label: "Taller", code: "TAL", priority: false },
-  simulador: { label: "Simulador", code: "SIM", priority: false },
-  practica: { label: "Práctica", code: "PRA", priority: true },
-  examen: { label: "Examen INAC", code: "EXM", priority: false },
-};
-
-/** Ordered for the distribution bar + legend. */
-export const TYPE_ORDER: CourseType[] = [
-  "teorica",
-  "taller",
-  "simulador",
-  "practica",
-  "examen",
-];
+const module = (name: string, hours: number, practice = false, mixed = false): Module => ({
+  name,
+  hours,
+  ...(practice ? { practice: true } : {}),
+  ...(mixed ? { mixed: true } : {}),
+});
 
 export const programs: PensumProgram[] = [
-  // ==========================================================================
   {
-    code: "TMA-552",
-    name: "Técnico de Mantenimiento Aeronáutico",
+    code: "RAV 147",
+    name: "Técnico en Mantenimiento Aeronáutico",
     short: "Mantenimiento",
-    salida: "Talleres OMAC, líneas aéreas y aviación general.",
-    licencia: "Licencia TMA · INAC",
-    duracion: "30 meses",
-    meses: 30,
-    modalidad: "Presencial · hangar y aula",
-    turnos: "Mañana o tarde",
-    equipo: "Turbina PT6A · King Air · banco de sistemas",
-    campus: "Aula Taller · La Chinita",
-    img: "turbine",
-    insignia: {
-      courseCode: "TMA-502",
-      title: "Overhaul mayor de una turbina PT6A",
-      body: "El corte que define la carrera. Desmontaje, inspección boroscópica, medición de tolerancias y el criterio para decidir si una sección vuela o se retira. Se practica sobre motor real, con la documentación del fabricante abierta.",
-      img: "hangar",
+    regulation: "FORMACIÓN TMA · RAV 147",
+    summary:
+      "Una ruta que reúne fundamentos aeronáuticos y formación específica para la habilitación de Célula, con práctica en taller y en operaciones de mantenimiento.",
+    image: "turbine",
+    outcome:
+      "El pensum contempla 400 horas de materias generales, 700 horas para la habilitación de Célula y un año de instrucción práctica en un puesto de trabajo.",
+    curriculum: {
+      name: "Formación TMA y habilitación de Célula",
+      short: "Ruta completa",
+      hours: 1100,
+      hoursLabel: "HORAS CURRICULARES",
+      hoursDetail: "400 h generales + 700 h de Célula",
+      summary:
+        "Primero se estudian fundamentos, normativa y documentación. Luego se profundiza en estructuras, sistemas y prácticas de mantenimiento de aeronaves de ala fija y rotativa.",
+      note: "Además de estas 1.100 horas, el documento exige un año de instrucción práctica en un puesto de trabajo.",
+      blocks: [
+        {
+          name: "Materias generales",
+          description: "Fundamentos técnicos, normativa, aerodinámica y documentación aeronáutica.",
+          modules: [
+            module("Requerimientos, leyes y reglamentos de aviación civil", 40),
+            module("Matemáticas", 48),
+            module("Física básica", 48),
+            module("Química", 48),
+            module("Dibujo técnico", 40),
+            module("Inglés técnico", 56),
+            module("Control de vuelo y aerodinámica de ala fija", 24),
+            module("Control de vuelo y aerodinámica de helicóptero", 24),
+            module("Formularios y registros de mantenimiento", 24),
+            module("Literatura técnica", 24),
+            module("Privilegios y limitaciones de un técnico de mantenimiento", 8),
+            module("Factores humanos (actuación humana)", 16),
+          ],
+        },
+        {
+          name: "Habilitación de Célula",
+          description: "Estructura y sistemas de aeronaves, inspección y prácticas de mantenimiento.",
+          modules: [
+            module("Materias y prácticas de mantenimiento", 72, false, true),
+            module("Estructuras y sistemas de aeronaves: ala fija", 72),
+            module("Tren de aterrizaje y sistemas asociados", 24),
+            module("Sistema de aire y neumático", 16),
+            module("Sistema hidráulico", 32),
+            module("Sistema de control atmosférico y oxígeno de cabina", 16),
+            module("Sistema de instrumentos", 16),
+            module("Sistema de comunicación y navegación", 16),
+            module("Sistema de combustible", 32),
+            module("Sistema eléctrico", 40),
+            module("Sistema de posición y advertencia", 16),
+            module("Sistema de control de lluvia y hielo", 16),
+            module("Sistema de protección contra fuego", 16),
+            module("Sistema motopropulsor: motor y hélice", 40),
+            module("Estructuras y sistemas de aeronaves: ala rotativa", 40),
+            module("Prácticas básicas de mantenimiento en taller", 80, true),
+            module("Reparación, mantenimiento y pruebas funcionales de sistemas y componentes de aeronaves", 36, true),
+            module("Documentación de tareas prácticas de control", 8, true),
+            module("Inspección de estructura", 16, true),
+            module("Instalaciones, herramientas y equipamiento de mantenimiento", 24, true),
+            module("Prácticas aplicadas a operaciones de mantenimiento de línea", 36, true),
+            module("Prácticas aplicadas a operaciones de mantenimiento de base", 36, true),
+          ],
+        },
+      ],
     },
-    ciclos: [
+  },
+  {
+    code: "HABILITACIONES TMA",
+    name: "Habilitaciones para poseedores de licencia TMA",
+    short: "Habilitaciones",
+    regulation: "FORMACIÓN POSTERIOR A LA LICENCIA TMA",
+    summary:
+      "Elige una especialidad para ampliar la formación técnica: sistema motopropulsor, aviónica o hélices.",
+    image: "turbine",
+    outcome:
+      "Estas rutas están dirigidas a personas que ya poseen una licencia de Técnico en Mantenimiento Aeronáutico.",
+    qualifications: [
       {
-        n: "01",
-        name: "Fundamentos aeronáuticos",
-        meses: "Meses 1-6",
-        foco: "La base física, matemática y normativa que sostiene todo lo demás.",
-        courses: [
-          { code: "TMA-101", name: "Matemática aplicada a la aviación", teoria: 64, practica: 16, uc: 4, type: "teorica" },
-          { code: "TMA-102", name: "Física de vuelo", teoria: 56, practica: 24, uc: 4, type: "teorica" },
-          { code: "TMA-103", name: "Dibujo técnico y planos", teoria: 32, practica: 48, uc: 3, type: "taller" },
-          { code: "TMA-104", name: "Inglés técnico aeronáutico I", teoria: 48, practica: 16, uc: 3, type: "teorica" },
-          { code: "TMA-105", name: "Ciencia de materiales aeronáuticos", teoria: 40, practica: 40, uc: 4, type: "taller" },
-          { code: "TMA-106", name: "Seguridad operacional y factores humanos", teoria: 48, practica: 0, uc: 3, type: "teorica" },
-        ],
-      },
-      {
-        n: "02",
-        name: "Aeronave y estructuras",
-        meses: "Meses 7-12",
-        foco: "La célula por dentro: cómo está hecha, cómo se inspecciona, cómo se cuida.",
-        courses: [
-          { code: "TMA-201", name: "Estructuras de aeronaves", teoria: 48, practica: 64, uc: 5, type: "taller" },
-          { code: "TMA-202", name: "Sistemas hidráulicos y neumáticos", teoria: 40, practica: 56, uc: 4, type: "taller" },
-          { code: "TMA-203", name: "Corrosión y ensayos no destructivos", teoria: 32, practica: 64, uc: 4, type: "taller" },
-          { code: "TMA-204", name: "Herramientas y prácticas de taller", teoria: 16, practica: 80, uc: 4, type: "practica" },
-          { code: "TMA-205", name: "Regulaciones RAV 43 y 65", teoria: 56, practica: 0, uc: 3, type: "teorica" },
-          { code: "TMA-206", name: "Inglés técnico aeronáutico II", teoria: 32, practica: 24, uc: 2, type: "teorica" },
-        ],
-      },
-      {
-        n: "03",
-        name: "Plantas de poder",
-        meses: "Meses 13-18",
-        foco: "Del pistón a la turbina. El corazón de la aeronave y sus parámetros.",
-        courses: [
-          { code: "TMA-301", name: "Motores alternativos de pistón", teoria: 48, practica: 72, uc: 5, type: "taller" },
-          { code: "TMA-302", name: "Motores de turbina", teoria: 56, practica: 72, uc: 6, type: "taller", insignia: true },
-          { code: "TMA-303", name: "Sistemas de combustible y lubricación", teoria: 40, practica: 48, uc: 4, type: "taller" },
-          { code: "TMA-304", name: "Hélices y sistemas de paso", teoria: 32, practica: 40, uc: 3, type: "taller" },
-          { code: "TMA-305", name: "Instrumentos de motor", teoria: 32, practica: 40, uc: 3, type: "taller" },
-        ],
-      },
-      {
-        n: "04",
-        name: "Sistemas y aviónica",
-        meses: "Meses 19-24",
-        foco: "Electricidad, aviónica y el arte de provocar y hallar una falla.",
-        courses: [
-          { code: "TMA-401", name: "Sistemas eléctricos de aeronave", teoria: 48, practica: 64, uc: 5, type: "taller" },
-          { code: "TMA-402", name: "Aviónica y cabina de cristal", teoria: 40, practica: 48, uc: 4, type: "taller" },
-          { code: "TMA-403", name: "Sistemas de hielo, lluvia y presión", teoria: 32, practica: 40, uc: 3, type: "taller" },
-          { code: "TMA-404", name: "Peso, balance y rigging", teoria: 24, practica: 56, uc: 3, type: "practica" },
-          { code: "TMA-405", name: "Simulación de fallas en banco", teoria: 16, practica: 64, uc: 3, type: "simulador" },
-          { code: "TMA-406", name: "Registros y aeronavegabilidad continuada", teoria: 48, practica: 16, uc: 3, type: "teorica" },
-        ],
-      },
-      {
-        n: "05",
-        name: "Línea y licenciamiento",
-        meses: "Meses 25-30",
-        foco: "Del aula al hangar de verdad, y de ahí al examen del INAC.",
-        courses: [
-          { code: "TMA-501", name: "Mantenimiento en línea", teoria: 24, practica: 96, uc: 5, type: "practica" },
-          { code: "TMA-502", name: "Mantenimiento mayor y overhaul", teoria: 24, practica: 96, uc: 5, type: "practica", insignia: true },
-          { code: "TMA-503", name: "Práctica profesional en hangar", teoria: 0, practica: 160, uc: 6, type: "practica", insignia: true },
-          { code: "TMA-504", name: "Preparación para el examen de licencia", teoria: 40, practica: 40, uc: 3, type: "examen" },
-          { code: "TMA-505", name: "Evaluación de licencia TMA · INAC", teoria: 8, practica: 0, uc: 2, type: "examen" },
-        ],
-      },
-    ],
-    habilitaciones: [
-      {
-        code: "HAB-01",
+        code: "MOTOPROPULSOR",
         name: "Sistema motopropulsor",
-        detail: "Motores recíprocos y accesorios; motores a turbina y accesorios.",
+        short: "Motopropulsor",
+        hours: 550,
+        hoursLabel: "HORAS DEL PENSUM",
+        hoursDetail: "Motores recíprocos, turbinas y prácticas de mantenimiento",
+        summary:
+          "Estudia motores recíprocos y de turbina, sus componentes, pruebas funcionales y procedimientos de mantenimiento en taller, línea y base.",
+        note: "Pensum para poseedores de licencia TMA.",
+        blocks: [
+          {
+            name: "Motores y mantenimiento",
+            description: "Motores recíprocos, motores a turbina y prácticas del sistema motopropulsor.",
+            modules: [
+              module("Motores recíprocos", 120),
+              module("Motores a turbina", 120),
+              module("Prácticas básicas de mantenimiento en taller", 80, true),
+              module("Sistema motopropulsor, componentes y pruebas funcionales", 30, true),
+              module("Documentación de tareas prácticas de control", 40, true),
+              module("Instalaciones, herramientas y equipamiento de mantenimiento", 40, true),
+              module("Prácticas aplicadas a operaciones de mantenimiento en línea", 60, true),
+              module("Prácticas aplicadas a operaciones de mantenimiento en base", 60, true),
+            ],
+          },
+        ],
       },
       {
-        code: "HAB-02",
-        name: "Sistema motopropulsor · Hélice",
-        detail: "Hélices y sistemas de paso variable.",
+        code: "AVIÓNICA",
+        name: "Habilitación de Aviónica",
+        short: "Aviónica",
+        hours: 750,
+        hoursLabel: "HORAS DEL PENSUM",
+        hoursDetail: "Electricidad, electrónica, instrumentos y sistemas de aeronaves",
+        summary:
+          "Revisa electricidad y electrónica, técnicas digitales, sistemas eléctricos e instrumentos, control automático de vuelo, navegación inercial y radionavegación.",
+        note: "Pensum para poseedores de licencia TMA. El documento repite el nombre de cuatro bloques prácticos sin distinguir sus contenidos.",
+        blocks: [
+          {
+            name: "Fundamentos y sistemas de aviónica",
+            description: "Bases eléctricas y electrónicas, instrumentos, control de vuelo, navegación y radio.",
+            modules: [
+              module("Fundamentos de electricidad y electrónica", 48),
+              module("Materiales y prácticas de mantenimiento", 48, false, true),
+              module("Técnicas digitales, computadoras y dispositivos asociados", 44),
+              module("Sistemas eléctricos de aeronaves", 120),
+              module("Sistemas de instrumentos de aeronaves", 80),
+              module("Sistemas automáticos de control de vuelo (AFCS): ala fija", 32),
+              module("Sistemas automáticos de control de vuelo (AFCS): ala rotativa", 32),
+              module("Sistemas de navegación inercial de aeronaves (INS)", 32),
+              module("Sistemas de radio y radionavegación de aeronaves", 56),
+            ],
+          },
+          {
+            name: "Prácticas básicas de mantenimiento en taller",
+            description: "Bloques prácticos enumerados en el documento fuente.",
+            modules: [
+              module("Prácticas básicas de mantenimiento en taller · bloque 1", 32, true),
+              module("Prácticas básicas de mantenimiento en taller · bloque 2", 32, true),
+              module("Prácticas básicas de mantenimiento en taller · bloque 3", 32, true),
+              module("Prácticas básicas de mantenimiento en taller · bloque 4", 162, true),
+            ],
+          },
+        ],
       },
       {
-        code: "HAB-03",
-        name: "Aviónica",
-        detail: "Instrumentos, sistemas eléctricos y cabina de cristal.",
+        code: "HÉLICES",
+        name: "Habilitación del sistema motopropulsor: hélices",
+        short: "Hélices",
+        hours: 150,
+        hoursLabel: "HORAS DEL PENSUM",
+        hoursDetail: "Hélices y prácticas en taller, línea y base",
+        summary:
+          "Concentra la formación en hélices y en las tareas de mantenimiento, documentación y operación asociadas.",
+        note: "Pensum para poseedores de licencia TMA.",
+        blocks: [
+          {
+            name: "Hélices y mantenimiento",
+            description: "Módulo de hélices y prácticas aplicadas al mantenimiento aeronáutico.",
+            modules: [
+              module("Hélices", 34),
+              module("Prácticas básicas de mantenimiento en taller", 62, true),
+              module("Documentación de tareas prácticas de control", 14, true),
+              module("Instalaciones, herramientas y equipamiento de mantenimiento", 24, true),
+              module("Prácticas aplicadas a operaciones de mantenimiento en línea", 8, true),
+              module("Prácticas aplicadas a operaciones de mantenimiento en base", 8, true),
+            ],
+          },
+        ],
       },
     ],
   },
-
-  // ==========================================================================
   {
-    code: "TCP-552",
-    name: "Tripulante de Cabina",
-    short: "Cabina",
-    salida: "Tripulante de cabina en aerolíneas comerciales.",
-    licencia: "Licencia TCP · INAC",
-    duracion: "12 meses",
-    meses: 12,
-    modalidad: "Presencial · aula y maqueta de cabina",
-    turnos: "Mañana o tarde",
-    equipo: "Maqueta de cabina · toboganes · equipo de emergencia",
-    campus: "Sede Maracaibo",
-    img: "cabinCrew",
-    insignia: {
-      courseCode: "TCP-204",
-      title: "Noventa segundos: supervivencia y evacuación",
-      body: "El estándar que la industria no negocia. Evacuación completa de la aeronave en menos de noventa segundos, con humo, oscuridad y pasajeros que no colaboran. Se entrena hasta que deja de pensarse y empieza a reaccionarse.",
-      img: "cabinCrew",
-    },
-    ciclos: [
-      {
-        n: "01",
-        name: "Fundamentos del servicio",
-        meses: "Meses 1-4",
-        foco: "La cara visible de la aerolínea: trato, idioma e imagen.",
-        courses: [
-          { code: "TCP-101", name: "Introducción a la aviación comercial", teoria: 40, practica: 8, uc: 3, type: "teorica" },
-          { code: "TCP-102", name: "Servicio y atención a bordo", teoria: 32, practica: 40, uc: 3, type: "taller" },
-          { code: "TCP-103", name: "Inglés para tripulación I", teoria: 48, practica: 16, uc: 3, type: "teorica" },
-          { code: "TCP-104", name: "Protocolo, imagen y comunicación", teoria: 24, practica: 24, uc: 2, type: "taller" },
-          { code: "TCP-105", name: "Psicología del pasajero", teoria: 32, practica: 8, uc: 2, type: "teorica" },
-        ],
-      },
-      {
-        n: "02",
-        name: "Seguridad y emergencias",
-        meses: "Meses 5-8",
-        foco: "Lo que de verdad justifica la tripulación: que todos bajen del avión.",
-        courses: [
-          { code: "TCP-201", name: "Seguridad de cabina y procedimientos", teoria: 40, practica: 48, uc: 4, type: "taller" },
-          { code: "TCP-202", name: "Primeros auxilios aeronáuticos", teoria: 32, practica: 40, uc: 3, type: "taller" },
-          { code: "TCP-203", name: "Mercancías peligrosas (DGR)", teoria: 32, practica: 8, uc: 2, type: "teorica" },
-          { code: "TCP-204", name: "Supervivencia y evacuación", teoria: 16, practica: 56, uc: 3, type: "practica", insignia: true },
-          { code: "TCP-205", name: "Extinción de incendios y humo", teoria: 16, practica: 40, uc: 3, type: "simulador" },
-        ],
-      },
-      {
-        n: "03",
-        name: "Operación y licencia",
-        meses: "Meses 9-12",
-        foco: "La maqueta, la aerolínea real y el examen del INAC.",
-        courses: [
-          { code: "TCP-301", name: "Maqueta de cabina · práctica integrada", teoria: 8, practica: 72, uc: 4, type: "simulador", insignia: true },
-          { code: "TCP-302", name: "CRM y coordinación de tripulación", teoria: 32, practica: 24, uc: 3, type: "teorica" },
-          { code: "TCP-303", name: "Inglés para tripulación II", teoria: 32, practica: 24, uc: 2, type: "teorica" },
-          { code: "TCP-304", name: "Práctica profesional en aerolínea", teoria: 0, practica: 120, uc: 5, type: "practica", insignia: true },
-          { code: "TCP-305", name: "Evaluación de licencia TCP · INAC", teoria: 8, practica: 0, uc: 2, type: "examen" },
-        ],
-      },
-    ],
-  },
-
-  // ==========================================================================
-  {
-    code: "DV-552",
-    name: "Despacho de Vuelo",
+    code: "RAV 141 · DV",
+    name: "Despachador de Vuelo",
     short: "Despacho",
-    salida: "Centros de control de operaciones (CCO) de aerolíneas.",
-    licencia: "Licencia DV · INAC",
-    duracion: "12 meses",
-    meses: 12,
-    modalidad: "Presencial + virtual síncrono",
-    turnos: "Mañana",
-    equipo: "Sala de operaciones · software de planificación",
-    campus: "Sala de Operaciones · Sede Maracaibo",
-    img: "planeBlueSky",
-    insignia: {
-      courseCode: "DV-301",
-      title: "El turno completo en el centro de operaciones",
-      body: "El despachador firma el vuelo antes que el capitán. Aquí se planifica un turno entero de operación: combustible, rutas, meteorología y las decisiones que se toman cuando el plan se rompe a mitad de la jornada.",
-      img: "cockpit",
+    regulation: "DESPACHADOR DE VUELO · RAV 141",
+    summary:
+      "Aprende los conocimientos necesarios para planificar y monitorear vuelos, considerando navegación, meteorología, desempeño, peso y seguridad.",
+    image: "planeBlueSky",
+    outcome:
+      "El documento indica 322 horas de formación teórica y 100 horas de instrucción práctica en un puesto de trabajo, dentro de un lapso de 90 días.",
+    curriculum: {
+      name: "Pensum de Despachador de Vuelo",
+      short: "Malla completa",
+      hours: 322,
+      hoursLabel: "HORAS TEÓRICAS",
+      hoursDetail: "+ 100 h de pasantía en puesto de trabajo",
+      summary:
+        "La malla cubre regulación, planificación, seguimiento y coordinación de las operaciones de vuelo.",
+      note: "La pasantía indicada es de 100 horas y debe realizarse en un lapso de 90 días.",
+      blocks: [
+        {
+          name: "Módulos del currículo",
+          description: "Fundamentos, planificación, coordinación y seguridad del vuelo.",
+          modules: [
+            module("Derecho aeronáutico", 24),
+            module("Adoctrinamiento en aviación", 20),
+            module("Masa y performance de la aeronave", 30),
+            module("Navegación", 32),
+            module("Control de tránsito aéreo", 20),
+            module("Meteorología", 40),
+            module("Control de masa y centrado", 40),
+            module("Transporte sin riesgo de mercancías peligrosas por vía aérea", 16),
+            module("Planificación de vuelo", 40),
+            module("Monitoreo de vuelo", 16),
+            module("Radiocomunicación", 16),
+            module("Factores humanos", 16),
+            module("Seguridad: situaciones anormales y de emergencia", 12),
+          ],
+        },
+      ],
     },
-    ciclos: [
-      {
-        n: "01",
-        name: "Bases operacionales",
-        meses: "Meses 1-4",
-        foco: "El lenguaje del despacho: clima, navegación, norma e idioma.",
-        courses: [
-          { code: "DV-101", name: "Introducción al despacho de vuelo", teoria: 40, practica: 8, uc: 3, type: "teorica" },
-          { code: "DV-102", name: "Meteorología aeronáutica", teoria: 56, practica: 24, uc: 4, type: "teorica" },
-          { code: "DV-103", name: "Navegación aérea", teoria: 48, practica: 24, uc: 4, type: "teorica" },
-          { code: "DV-104", name: "Inglés aeronáutico OACI nivel 4", teoria: 48, practica: 32, uc: 4, type: "teorica" },
-          { code: "DV-105", name: "Reglamentación y documentación de vuelo", teoria: 40, practica: 8, uc: 3, type: "teorica" },
-        ],
-      },
-      {
-        n: "02",
-        name: "Planificación",
-        meses: "Meses 5-8",
-        foco: "La matemática del despacho: performance, peso, ruta y combustible.",
-        courses: [
-          { code: "DV-201", name: "Performance de aeronaves", teoria: 40, practica: 40, uc: 4, type: "taller" },
-          { code: "DV-202", name: "Peso y balance operacional", teoria: 32, practica: 48, uc: 4, type: "taller" },
-          { code: "DV-203", name: "Planificación de ruta y combustible", teoria: 32, practica: 56, uc: 4, type: "taller", insignia: true },
-          { code: "DV-204", name: "Comunicaciones y servicios ATS", teoria: 32, practica: 24, uc: 3, type: "teorica" },
-          { code: "DV-205", name: "Mercancías peligrosas (DGR)", teoria: 32, practica: 8, uc: 2, type: "teorica" },
-        ],
-      },
-      {
-        n: "03",
-        name: "Sala de operaciones",
-        meses: "Meses 9-12",
-        foco: "Todo junto, en tiempo real, bajo presión, y el examen del INAC.",
-        courses: [
-          { code: "DV-301", name: "Centro de control de operaciones (CCO)", teoria: 24, practica: 72, uc: 5, type: "simulador", insignia: true },
-          { code: "DV-302", name: "Gestión de irregularidades y contingencias", teoria: 24, practica: 40, uc: 3, type: "simulador" },
-          { code: "DV-303", name: "Simulación integrada de turno", teoria: 8, practica: 72, uc: 4, type: "simulador", insignia: true },
-          { code: "DV-304", name: "Evaluación de licencia DV · INAC", teoria: 8, practica: 0, uc: 2, type: "examen" },
-        ],
-      },
-    ],
   },
-
+  {
+    code: "RAV 141 · TCP",
+    name: "Tripulante de Cabina de Pasajeros",
+    short: "Tripulante de cabina",
+    regulation: "TRIPULANTE DE CABINA · RAV 141",
+    summary:
+      "Fórmate en responsabilidades de cabina, seguridad operacional, atención de emergencias, primeros auxilios e inglés.",
+    image: "cabinCrew",
+    outcome:
+      "El pensum reúne 232 horas de conocimientos teóricos y 40 horas de instrucción práctica en la escuela.",
+    curriculum: {
+      name: "Pensum de Tripulante de Cabina",
+      short: "Malla completa",
+      hours: 272,
+      hoursLabel: "HORAS TOTALES",
+      hoursDetail: "232 h teóricas + 40 h prácticas",
+      summary:
+        "La formación combina normativa y responsabilidades de cabina con procedimientos de emergencia, seguridad, salud e inglés.",
+      blocks: [
+        {
+          name: "Módulos del currículo",
+          description: "Conocimientos aeronáuticos, seguridad, responsabilidades e instrucción práctica.",
+          modules: [
+            module("Derecho aeronáutico", 20),
+            module("Adoctrinamiento aeronáutico", 32),
+            module("Factores humanos en aviación", 12),
+            module("Obligaciones y responsabilidades", 36),
+            module("Equipos y procedimientos de emergencia", 40),
+            module("Transporte sin riesgo de mercancías peligrosas", 12),
+            module("Seguridad operacional", 20),
+            module("Higiene, medicina de aviación y primeros auxilios", 20),
+            module("Inglés", 40),
+            module("Instrucción práctica en la escuela", 40, true),
+          ],
+        },
+      ],
+    },
+  },
 ];
 
-export const PROGRAM_MAP: Record<string, PensumProgram> = programs.reduce(
-  (acc, p) => ({ ...acc, [p.code]: p }),
-  {} as Record<string, PensumProgram>,
-);
-
-// ---- Aggregate helpers (used by both the server page and the client view) ---
-export type ProgramStats = {
-  horasTeoria: number;
-  horasPractica: number;
-  horasTotal: number;
-  uc: number;
-  asignaturas: number;
-  ciclos: number;
-  practicaPct: number;
-  /** Hours per type, in TYPE_ORDER, for the distribution bar. */
-  porTipo: { type: CourseType; horas: number }[];
-};
-
-export function statsFor(p: PensumProgram): ProgramStats {
-  let horasTeoria = 0;
-  let horasPractica = 0;
-  let uc = 0;
-  let asignaturas = 0;
-  const tipo = { teorica: 0, taller: 0, simulador: 0, practica: 0, examen: 0 };
-  for (const c of p.ciclos) {
-    for (const s of c.courses) {
-      horasTeoria += s.teoria;
-      horasPractica += s.practica;
-      uc += s.uc;
-      asignaturas += 1;
-      tipo[s.type] += s.teoria + s.practica;
-    }
+export function getCurriculum(
+  program: PensumProgram,
+  qualificationCode?: string,
+): Curriculum {
+  if (program.qualifications?.length) {
+    return (
+      program.qualifications.find((item) => item.code === qualificationCode) ??
+      program.qualifications[0]
+    );
   }
-  const horasTotal = horasTeoria + horasPractica;
+  return program.curriculum!;
+}
+
+export function statsFor(curriculum: Curriculum) {
+  const modules = curriculum.blocks.flatMap((block) => block.modules);
   return {
-    horasTeoria,
-    horasPractica,
-    horasTotal,
-    uc,
-    asignaturas,
-    ciclos: p.ciclos.length,
-    practicaPct: horasTotal ? Math.round((horasPractica / horasTotal) * 100) : 0,
-    porTipo: TYPE_ORDER.map((type) => ({ type, horas: tipo[type] })),
+    modules: modules.length,
+    blocks: curriculum.blocks.length,
+    hours: curriculum.hours,
   };
 }
