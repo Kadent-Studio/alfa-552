@@ -1,7 +1,7 @@
 # Recaudos de admisión por programa
 
 **Fecha:** 2026-10-12
-**Estado:** En revisión
+**Estado:** Aprobado
 
 ## Objetivo
 
