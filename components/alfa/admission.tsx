@@ -1,6 +1,8 @@
 "use client";
 
 import { useState } from "react";
+import { CONTACT } from "./data";
+import { WhatsAppIcon } from "./whatsapp-icon";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
@@ -101,7 +103,6 @@ export function Admission() {
                 <SelectItem value="TMA">TMA-552 · MANTENIMIENTO AERONÁUTICO</SelectItem>
                 <SelectItem value="TCP">TCP-552 · TRIPULANTE DE CABINA</SelectItem>
                 <SelectItem value="DV">DV-552 · DESPACHO DE VUELO</SelectItem>
-                <SelectItem value="PPA">PPA-552 · PILOTO (LISTA DE ESPERA)</SelectItem>
               </SelectContent>
             </Select>
           </Row>
@@ -131,12 +132,12 @@ export function Admission() {
           </Button>
 
           <a
-            href="https://wa.me/580000000000"
+            href={CONTACT.whatsapp}
             target="_blank"
             rel="noopener"
-            className="alfa-cta alfa-cta--ghost mono mt-4 flex items-center justify-between px-6 py-4 text-[12px] tracking-[0.14em] text-[var(--lt)]"
+            className="alfa-cta alfa-cta--ghost alfa-cta--wa mono mt-4 flex items-center justify-between px-6 py-4 text-[12px] tracking-[0.14em] text-[var(--lt)]"
           >
-            <span>O ESCRÍBENOS POR WHATSAPP</span>
+            <span className="flex items-center gap-3"><WhatsAppIcon />O ESCRÍBENOS POR WHATSAPP</span>
             <span aria-hidden>↗</span>
           </a>
         </div>

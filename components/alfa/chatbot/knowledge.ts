@@ -4,7 +4,7 @@
 // derived from the same source files the page renders, so the bot never
 // contradicts the site. Spanish, aviation register, zero em-dashes.
 
-import { programs as landingPrograms, cohorts } from "@/components/alfa/data";
+import { programs as landingPrograms, cohorts, CONTACT, FOUNDED } from "@/components/alfa/data";
 import { programs as pensumPrograms, statsFor } from "@/components/alfa/pensum-data";
 
 /** Icon id for a reply's topic. Mapped to a lucide glyph in the widget so the
@@ -18,7 +18,6 @@ export type BotIcon =
   | "pensum"
   | "duracion"
   | "modalidad"
-  | "pilotos"
   | "contacto"
   | "costos"
   | "inac"
@@ -61,7 +60,7 @@ function answerProgramas(): BotReply {
   return {
     icon: "programas",
     text:
-      "Formamos en cuatro programas bajo las Regulaciones Aeronáuticas Venezolanas (INAC · CIAC 552):\n\n" +
+      "Formamos en tres programas bajo las Regulaciones Aeronáuticas Venezolanas (INAC · CCIA-89):\n\n" +
       lines.join("\n") +
       "\n\n¿Sobre cuál quieres detalle?",
     chips: ["Requisitos de TMA-552", "Duración de cada programa", "Ver el pensum"],
@@ -149,22 +148,12 @@ function answerModalidad(): BotReply {
   };
 }
 
-function answerPilotos(): BotReply {
-  return {
-    icon: "pilotos",
-    text:
-      "El programa de formación de pilotos (PPA-552) está en proceso de certificación ante el INAC. " +
-      "La apertura estimada es 2027 y la lista de espera ya está abierta. Podemos anotarte para avisarte apenas se certifique.",
-    chips: ["Preinscribirme para pilotos", "Otros programas disponibles"],
-  };
-}
-
 function answerContacto(): BotReply {
   return {
     icon: "contacto",
     text:
-      "Puedes escribirnos por WhatsApp o dejar tus datos en el checklist de admisión al final de la página. " +
-      "Un asesor te contacta en menos de 48 horas con requisitos, costos y fechas de examen. Estamos en Caracas, Venezuela.",
+      `Puedes escribirnos por WhatsApp al ${CONTACT.phone}, al correo ${CONTACT.email} o dejar tus datos en el checklist de admisión al final de la página. ` +
+      "Un asesor te contacta en menos de 48 horas con requisitos, costos y fechas de examen. Estamos en Maracaibo, Zulia.",
     chips: ["Requisitos de admisión", "Fechas de ingreso"],
   };
 }
@@ -183,8 +172,8 @@ function answerInac(): BotReply {
   return {
     icon: "inac",
     text:
-      "CIA ALFA 552 es un Centro de Instrucción Aeronáutica certificado por el INAC (Instituto Nacional de Aeronáutica Civil) bajo el código CIAC 552, " +
-      "fundado en 2011 y con más de 1.240 egresados. Las licencias las emite el INAC: nuestros programas te preparan para sus evaluaciones conforme a las Regulaciones Aeronáuticas Venezolanas.",
+      "CIA ALFA 552 es un Centro de Instrucción Aeronáutica certificado por el INAC (Instituto Nacional de Aeronáutica Civil) bajo el código CCIA-89, " +
+      `fundado en ${FOUNDED} y con más de 750 egresados. Las licencias las emite el INAC: nuestros programas te preparan para sus evaluaciones conforme a las Regulaciones Aeronáuticas Venezolanas.`,
     chips: ["Programas disponibles", "Ver el pensum"],
   };
 }
@@ -201,7 +190,7 @@ function answerProgramaEspecifico(q: string): BotReply | null {
       const p = landingPrograms.find((x) => x.code === m.code);
       if (!p) continue;
       return {
-        icon: m.code === "PPA-552" ? "pilotos" : "programas",
+        icon: "programas",
         text:
           `${p.code} · ${p.name}\n\n` +
           `· Duración: ${p.dur.toLowerCase()}\n` +
@@ -272,10 +261,6 @@ export function getBotReply(input: string): BotReply {
   // Costos
   if (has(q, "costo", "precio", "cuesta", "pago", "mensualidad", "arancel", "cuanto vale"))
     return answerCostos();
-
-  // Pilotos
-  if (has(q, "piloto", "ppa", "volar", "licencia de piloto"))
-    return answerPilotos();
 
   // INAC / certificación
   if (has(q, "inac", "certific", "aval", "reconoc", "licencia", "titulo", "egresad", "quienes son"))

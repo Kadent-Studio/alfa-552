@@ -10,7 +10,7 @@ export function MissionVision() {
         align="left"
         label="Misión"
       >
-        Formar profesionales de élite (pilotos, tripulantes de cabina,
+        Formar profesionales de élite (tripulantes de cabina,
         despachadores de vuelo y técnicos de mantenimiento aeronáutico) mediante
         una instrucción rigurosa que trasciende los estándares de las Regulaciones
         Aeronáuticas Venezolanas. Nuestro compromiso es forjar expertos proactivos

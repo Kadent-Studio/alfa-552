@@ -576,7 +576,7 @@ function Total({
 }
 
 // ============================================================================
-// Coming-soon panel (Pilotos, in certification)
+// Coming-soon panel (programs flagged `soon`)
 // ============================================================================
 function SoonPanel({ program, reduce }: { program: PensumProgram; reduce: boolean }) {
   return (

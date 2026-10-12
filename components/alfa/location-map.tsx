@@ -19,7 +19,7 @@ const TILES = "https://tile.openstreetmap.org/{z}/{x}/{y}.png";
 const ATTRIBUTION =
   '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>';
 
-const ZOOM = 14;
+const ZOOM = 17;
 
 /**
  * Leaflet touches `window` at import time, so it is loaded inside the effect

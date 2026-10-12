@@ -1,3 +1,5 @@
+import { CONTACT } from "./data";
+import { WhatsAppIcon } from "./whatsapp-icon";
 import { IMG } from "./images";
 
 export function Hero() {
@@ -27,7 +29,7 @@ export function Hero() {
 
       <div className="alfa-hero-content alfa-container relative z-10 w-full pb-[clamp(3.5rem,7vw,6rem)]">
         <p data-reveal className="eyebrow mb-6">
-          Centro de Instrucción Aeronáutica · INAC CIAC 552
+          Centro de Instrucción Aeronáutico bajo certificados RAV 141 y 147 · INAC CCIA-89
         </p>
 
         <h1
@@ -47,9 +49,8 @@ export function Hero() {
           style={{ transitionDelay: "0.16s" }}
           className="mt-7 max-w-[52ch] text-[16px] leading-relaxed text-[var(--lt)] md:text-[17px]"
         >
-          Técnico en mantenimiento de aeronaves, auxiliares de vuelo (tripulantes
-          de cabina) y despachadores de vuelo bajo norma INAC. Próximamente,
-          formación de pilotos de avión.
+          Técnico en mantenimiento de aeronaves, tripulantes de cabina y
+          despachadores de vuelo bajo norma INAC.
         </p>
 
         <div
@@ -66,9 +67,18 @@ export function Hero() {
           </a>
           <a
             href="#sec-programs"
-            className="alfa-cta alfa-cta--ghost mono flex items-center gap-3 px-7 py-4 text-[13px] tracking-[0.12em]"
+            className="alfa-cta alfa-cta--ghost alfa-cta--wa mono flex items-center gap-3 px-7 py-4 text-[13px] tracking-[0.12em]"
           >
             VER PROGRAMAS
+          </a>
+          <a
+            href={CONTACT.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="alfa-cta alfa-cta--ghost alfa-cta--wa mono flex items-center gap-3 px-7 py-4 text-[13px] tracking-[0.12em]"
+          >
+            <WhatsAppIcon size={16} />
+            WHATSAPP
           </a>
         </div>
       </div>

@@ -2,6 +2,8 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CONTACT } from "./data";
+import { WhatsAppIcon } from "./whatsapp-icon";
 import { ThemeToggle } from "./theme-toggle";
 
 // Homepage anchors are prefixed with "/" so the shared header also works from
@@ -44,6 +46,16 @@ export function SiteHeader() {
         </nav>
 
         <div className="flex items-center gap-3">
+          <a
+            href={CONTACT.whatsapp}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Escríbenos por WhatsApp"
+            className="alfa-cta alfa-cta--ghost alfa-cta--wa mono flex items-center gap-2 px-3 py-2.5 text-[11px] tracking-[0.14em] sm:px-4"
+          >
+            <WhatsAppIcon size={14} />
+            <span className="hidden sm:inline">WHATSAPP</span>
+          </a>
           <Link
             href="/#sec-cta"
             className="alfa-cta alfa-cta--solid mono flex items-center gap-2 px-4 py-2.5 text-[11px] tracking-[0.14em]"

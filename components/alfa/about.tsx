@@ -1,8 +1,9 @@
+import { YEARS } from "./data";
 import { IMG } from "./images";
 
 const STATS = [
-  { count: "15", suffix: " AÑOS", label: "DE OPERACIÓN", accent: false },
-  { count: "1240", suffix: "+", label: "TÉCNICOS EGRESADOS", accent: true },
+  { count: String(YEARS), suffix: " AÑOS", label: "DE OPERACIÓN", accent: false },
+  { count: "750", suffix: "+", label: "TÉCNICOS EGRESADOS", accent: true },
   { count: "92", suffix: "%", label: "EMPLEABILIDAD 12M", accent: false },
 ];
 

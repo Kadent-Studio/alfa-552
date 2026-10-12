@@ -1,8 +1,10 @@
+import { FOUNDED } from "./data";
+
 const STATS = [
-  { label: "FUNDACIÓN", value: "2011" },
-  { label: "TÉCNICOS EGRESADOS", value: "1 240+" },
-  { label: "CERTIFICACIÓN", value: "INAC · CIAC 552" },
-  { label: "BASE DE OPERACIONES", value: "CARACAS · VE" },
+  { label: "FUNDACIÓN", value: String(FOUNDED) },
+  { label: "TÉCNICOS EGRESADOS", value: "750+" },
+  { label: "CERTIFICACIÓN", value: "INAC · CCIA-89" },
+  { label: "BASE DE OPERACIONES", value: "MARACAIBO · ZULIA" },
 ];
 
 export function StatStrip() {

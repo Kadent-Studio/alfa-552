@@ -19,38 +19,26 @@ type Site = MapSite & {
   hours: string;
 };
 
-// TODO(alfa): confirmar coordenadas y dirección exactas de Campus Caracas y
-// del Aula anexa. El hangar apunta al Aeropuerto Int. Simón Bolívar (SVMI).
 const SITES: Site[] = [
   {
     id: "campus",
     code: "HQ",
-    name: "Campus Caracas",
-    role: "Sede principal. Aulas teóricas, simuladores de cabina y sala de despacho.",
-    address: "Caracas, Distrito Capital",
+    name: "Oficina Maracaibo",
+    role: "Oficina principal. Información y admisiones.",
+    address: "Torre 2073, piso 2, oficina 2-02 · Maracaibo, Zulia",
     hours: "LUN-SÁB · 08:00-18:00",
-    lat: 10.4961,
-    lng: -66.8497,
+    lat: 10.6639281,
+    lng: -71.6264667,
   },
   {
-    id: "hangar",
-    code: "SVMI",
-    name: "Hangar escuela",
-    role: "Prácticas de mantenimiento en aeronave real, en plataforma.",
-    address: "Aeropuerto Int. Simón Bolívar, Maiquetía, La Guaira",
+    id: "taller",
+    code: "SVMC",
+    name: "Aula Taller",
+    role: "Prácticas de mantenimiento en aeronave real, en el hangar HA-04 del aeropuerto.",
+    address: "Hangar N.º HA-04, zona de áreas del Terminal de Aviación General · Aeropuerto Int. La Chinita, Maracaibo",
     hours: "Según calendario de prácticas",
-    lat: 10.6012,
-    lng: -66.9913,
-  },
-  {
-    id: "anexo",
-    code: "ANX",
-    name: "Aula anexa",
-    role: "Clases teóricas complementarias y exámenes internos.",
-    address: "Caracas, Distrito Capital",
-    hours: "LUN-VIE · 08:00-17:00",
-    lat: 10.4917,
-    lng: -66.8783,
+    lat: 10.5528961,
+    lng: -71.7249842,
   },
 ];
 
@@ -70,15 +58,16 @@ export function Location() {
               data-reveal
               className="max-w-[16ch] text-[clamp(30px,3.4vw,46px)] font-bold leading-[1.04] tracking-[-0.03em] [text-wrap:balance]"
             >
-              Encuéntranos en Caracas y Maiquetía.
+              Encuéntranos en Maracaibo.
             </h2>
             <p
               data-reveal
               style={{ transitionDelay: "0.08s" }}
               className="max-w-[42ch] text-[15px] leading-relaxed text-[var(--lt)]"
             >
-              La teoría se dicta en Caracas. Las prácticas en aeronave se hacen
-              en el hangar escuela del aeropuerto.
+              Información y admisiones en nuestra oficina. Las prácticas en
+              aeronave se hacen en el Aula Taller, en los hangares del
+              Aeropuerto Int. La Chinita.
             </p>
           </div>
 

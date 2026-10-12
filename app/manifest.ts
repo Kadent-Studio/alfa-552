@@ -5,7 +5,7 @@ export default function manifest(): MetadataRoute.Manifest {
     name: "CIA ALFA 552 · Centro de Instrucción Aeronáutica",
     short_name: "CIA ALFA 552",
     description:
-      "Formamos técnicos de mantenimiento, tripulantes de cabina, despachadores de vuelo y pilotos bajo las Regulaciones Aeronáuticas Venezolanas. INAC · CIAC 552.",
+      "Formamos técnicos de mantenimiento, tripulantes de cabina y despachadores de vuelo bajo las Regulaciones Aeronáuticas Venezolanas. INAC · CCIA-89.",
     start_url: "/",
     display: "standalone",
     background_color: "#0a0b0d",

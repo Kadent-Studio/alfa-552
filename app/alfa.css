@@ -166,6 +166,15 @@ html {
   border-color: var(--accent);
   color: var(--accent-text);
 }
+/* Green fills in left → right; the .alfa-cta `background` transition animates the size. */
+.alfa-cta--wa {
+  background: linear-gradient(#25d366, #25d366) no-repeat left / 0% 100%;
+}
+.alfa-cta--wa:hover {
+  background-size: 100% 100%;
+  border-color: #25d366;
+  color: #fff;
+}
 
 .alfa-post {
   transition:

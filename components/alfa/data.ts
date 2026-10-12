@@ -48,17 +48,6 @@ export const programs: Program[] = [
     img: IMG.planeBlueSky,
     soon: false,
   },
-  {
-    code: "PPA-552",
-    name: "Formación de Pilotos",
-    dur: "EN CERTIFICACIÓN",
-    mode: "Programa en proceso de certificación ante el INAC",
-    req: "Preinscripción abierta · lista de espera 2027",
-    out: "Piloto privado y comercial. Apertura estimada 2027.",
-    fig: "Fuselaje en plataforma",
-    img: IMG.airlinerSky,
-    soon: true,
-  },
 ];
 
 export type Value = { code: string; title: string; body: string };
@@ -107,7 +96,6 @@ export const cohorts: Cohort[] = [
   { id: "C-26C", date: "02 NOV 26", prog: "DV · DESPACHO DE VUELO", seats: "14 / 18", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
   { id: "C-27A", date: "11 ENE 27", prog: "TCP · TRIPULANTE DE CABINA", seats: "24 / 24", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
   { id: "C-27B", date: "15 MAR 27", prog: "TMA · HAB. AVIÓNICA", seats: "20 / 20", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
-  { id: "C-27C", date: "JUL 27 (EST.)", prog: "PPA · PILOTOS, APERTURA", seats: "LISTA DE ESPERA", status: "PREINSCRIPCIÓN", stColor: "var(--accent)", dateColor: "var(--accent)" },
 ];
 
 export type Post = { cat: string; date: string; title: string; lede: string; img: string };
@@ -123,22 +111,24 @@ export const posts: Post[] = [
   {
     cat: "CABINA",
     date: "05 AGO 2026",
-    title: "Auxiliar de vuelo: la seguridad antes que el servicio",
+    title: "Tripulante de Cabina: la seguridad antes que el servicio",
     lede: "El tripulante de cabina es la autoridad de seguridad a bordo. Ejecuta evacuaciones, primeros auxilios y manejo de emergencias, y a la vez cuida la experiencia del pasajero en aerolíneas comerciales.",
     img: IMG.cabinCrew,
   },
   {
     cat: "OPERACIONES",
     date: "28 JUL 2026",
-    title: "Despachador de vuelo: firma antes que el capitán",
+    title: "Despachador de vuelo: se encarga de la programación, organización y plan de vuelo",
     lede: "Desde el centro de control de operaciones planifica ruta, combustible, peso y balance, y sigue el clima. Comparte con el comandante la responsabilidad legal de cada vuelo que despacha.",
     img: IMG.cockpit,
   },
-  {
-    cat: "PILOTOS",
-    date: "10 JUL 2026",
-    title: "Piloto de avión: el mando en la cabina (próximamente)",
-    lede: "Conduce la aeronave y toma las decisiones de vuelo con criterio técnico y seguridad operacional. El programa de formación de pilotos está en proceso de certificación ante el INAC, con lista de espera abierta.",
-    img: IMG.airlinerSky,
-  },
 ];
+
+export const CONTACT = {
+  phone: "+58 424-6329924",
+  email: "ventas@alfa552.com",
+  whatsapp: `https://wa.me/584246329924?text=${encodeURIComponent("Hola, quiero información sobre el proceso de admisión.")}`,
+};
+
+export const FOUNDED = 2008;
+export const YEARS = new Date().getFullYear() - FOUNDED;

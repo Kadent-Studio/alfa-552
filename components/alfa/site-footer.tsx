@@ -1,13 +1,13 @@
+import { CONTACT } from "./data";
+
 const COLS = [
   {
     label: "SEDES",
     body: (
       <>
-        Campus Caracas, sede principal
+        Oficina: Torre 2073, piso 2, oficina 2-02, Maracaibo
         <br />
-        Hangar escuela, Aeropuerto Int. Simón Bolívar, Maiquetía
-        <br />
-        Aula anexa, Caracas
+        Aula Taller: hangar HA-04, Terminal de Aviación General, Aeropuerto Int. La Chinita
       </>
     ),
   },
@@ -15,11 +15,13 @@ const COLS = [
     label: "CONTACTO",
     body: (
       <>
-        <a className="hover:text-[var(--accent-text)]" href="mailto:admision@alfa552.edu">
-          admision@alfa552.edu
+        <a className="hover:text-[var(--accent-text)]" href={`mailto:${CONTACT.email}`}>
+          {CONTACT.email}
         </a>
         <br />
-        +58 212 555 0552 · WhatsApp
+        <a className="hover:text-[var(--accent-text)]" href={CONTACT.whatsapp} target="_blank" rel="noopener">
+          {CONTACT.phone} · WhatsApp
+        </a>
         <br />
         LUN-SÁB · 08:00-18:00
       </>
@@ -30,9 +32,9 @@ const COLS = [
     mono: true,
     body: (
       <>
-        INAC · CIAC N.º 552
+        INAC · CCIA-89
         <br />
-        CENTRO DE INSTRUCCIÓN · RAV 141
+        CENTRO DE INSTRUCCIÓN · RAV 141 Y 147
         <br />
         RIF J-29536018-5
       </>

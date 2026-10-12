@@ -107,7 +107,7 @@ export const programs: PensumProgram[] = [
     modalidad: "Presencial · hangar y aula",
     turnos: "Mañana o tarde",
     equipo: "Turbina PT6A · King Air · banco de sistemas",
-    campus: "Hangar Escuela · Maiquetía",
+    campus: "Aula Taller · La Chinita",
     img: "turbine",
     insignia: {
       courseCode: "TMA-502",
@@ -216,7 +216,7 @@ export const programs: PensumProgram[] = [
     modalidad: "Presencial · aula y maqueta de cabina",
     turnos: "Mañana o tarde",
     equipo: "Maqueta de cabina · toboganes · equipo de emergencia",
-    campus: "Campus Caracas",
+    campus: "Sede Maracaibo",
     img: "cabinCrew",
     insignia: {
       courseCode: "TCP-204",
@@ -279,7 +279,7 @@ export const programs: PensumProgram[] = [
     modalidad: "Presencial + virtual síncrono",
     turnos: "Mañana",
     equipo: "Sala de operaciones · software de planificación",
-    campus: "Sala de Operaciones · Campus Caracas",
+    campus: "Sala de Operaciones · Sede Maracaibo",
     img: "planeBlueSky",
     insignia: {
       courseCode: "DV-301",
@@ -329,29 +329,6 @@ export const programs: PensumProgram[] = [
     ],
   },
 
-  // ==========================================================================
-  {
-    code: "PPA-552",
-    name: "Formación de Pilotos",
-    short: "Pilotos",
-    salida: "Piloto privado y comercial. Apertura estimada 2027.",
-    licencia: "Licencia PPA · en certificación",
-    duracion: "En certificación",
-    meses: 0,
-    modalidad: "Programa en proceso de certificación ante el INAC",
-    turnos: "Por definir",
-    equipo: "Flota escuela · simulador de vuelo",
-    campus: "Por definir",
-    img: "airlinerSky",
-    insignia: {
-      courseCode: "PPA-552",
-      title: "La malla se publica al certificar",
-      body: "El programa de pilotos está en proceso de certificación ante el INAC. La malla completa, con horas de vuelo y simulador, se publica en cuanto obtengamos la aprobación. La lista de espera 2027 ya está abierta.",
-      img: "airlinerSky",
-    },
-    ciclos: [],
-    soon: true,
-  },
 ];
 
 export const PROGRAM_MAP: Record<string, PensumProgram> = programs.reduce(

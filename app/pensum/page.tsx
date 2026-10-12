@@ -12,7 +12,7 @@ import { SITE_URL } from "@/lib/seo/site";
 
 const PAGE_TITLE = "Pensum";
 const PAGE_DESCRIPTION =
-  "Malla curricular de CIA ALFA 552: asignaturas, ciclos y horas por carrera hacia tu licencia INAC. Mantenimiento, cabina, despacho y pilotos.";
+  "Malla curricular de CIA ALFA 552: asignaturas, ciclos y horas por carrera hacia tu licencia INAC. Mantenimiento, cabina y despacho.";
 
 export const metadata: Metadata = {
   title: PAGE_TITLE,
@@ -27,8 +27,7 @@ export const metadata: Metadata = {
   },
 };
 
-// Aggregate figures across the certified programs (Pilotos is still in
-// certification, so it carries no hours yet and is excluded from the totals).
+// Aggregate figures across the certified programs (`soon` ones carry no hours yet).
 const active = programs.filter((p) => !p.soon);
 const totals = active.reduce(
   (acc, p) => {

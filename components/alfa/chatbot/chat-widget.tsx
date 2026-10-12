@@ -58,7 +58,6 @@ const ICONS: Record<BotIcon, IconCmp> = {
   pensum: BookOpen,
   duracion: Clock,
   modalidad: Building2,
-  pilotos: Plane,
   contacto: Phone,
   costos: Wallet,
   inac: ShieldCheck,

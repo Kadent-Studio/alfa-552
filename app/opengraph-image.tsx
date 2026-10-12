@@ -6,8 +6,8 @@ export const contentType = "image/png";
 
 export default async function Image() {
   return renderOgImage(
-    "CIA ALFA 552 · CIAC 552",
+    "CIA ALFA 552 · INAC CCIA-89",
     "Centro de Instrucción Aeronáutica",
-    "Mantenimiento, cabina, despacho de vuelo y pilotos — bajo las Regulaciones Aeronáuticas Venezolanas"
+    "Mantenimiento, cabina y despacho de vuelo — bajo las Regulaciones Aeronáuticas Venezolanas"
   );
 }

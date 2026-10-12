@@ -27,7 +27,7 @@ const SITE_TITLE = {
   template: "%s · CIA ALFA 552",
 };
 const SITE_DESCRIPTION =
-  "Formamos técnicos de mantenimiento, tripulantes de cabina, despachadores de vuelo y pilotos bajo las Regulaciones Aeronáuticas Venezolanas. INAC · CIAC 552.";
+  "Formamos técnicos de mantenimiento, tripulantes de cabina y despachadores de vuelo bajo las Regulaciones Aeronáuticas Venezolanas. INAC · CCIA-89.";
 
 export const metadata: Metadata = {
   metadataBase: new URL(SITE_URL),
@@ -62,7 +62,7 @@ const JSON_LD = {
   description: SITE_DESCRIPTION,
   url: SITE_URL,
   logo: `${SITE_URL}/favicon.ico`,
-  identifier: "CIAC 552",
+  identifier: "CCIA-89",
 };
 
 // Runs before first paint so the theme is correct with no flash.
