@@ -42,7 +42,11 @@ const COLS = [
   },
 ];
 
-const SOCIAL = ["INSTAGRAM", "LINKEDIN", "YOUTUBE"];
+const SOCIAL = [
+  { label: "INSTAGRAM", href: "https://www.instagram.com/alfa552_ccia89/?utm_source=ig_web_button_share_sheet", external: true },
+  { label: "LINKEDIN", href: "#sec-hero" },
+  { label: "YOUTUBE", href: "#sec-hero" },
+];
 
 export function SiteFooter() {
   return (
@@ -72,9 +76,14 @@ export function SiteFooter() {
             REDES
           </div>
           <div className="mono flex flex-col gap-2 text-[12px]">
-            {SOCIAL.map((s) => (
-              <a key={s} href="#sec-hero" className="text-[var(--lt)] hover:text-[var(--accent-text)]">
-                {s} ↗
+            {SOCIAL.map((social) => (
+              <a
+                key={social.label}
+                href={social.href}
+                className="text-[var(--lt)] hover:text-[var(--accent-text)]"
+                {...(social.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
+              >
+                {social.label} ↗
               </a>
             ))}
           </div>
