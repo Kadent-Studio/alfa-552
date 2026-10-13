@@ -3,49 +3,140 @@
 import { IMG } from "./images";
 
 export type Program = {
+  /** Stable internal code used by site links and data lookups. */
   code: string;
+  /** Public course identifier shown in program listings. */
+  publicCode: string;
   name: string;
   dur: string;
   mode: string;
-  req: string;
+  startDate: string;
+  startDateISO: string;
+  capacity: number;
+  admission: {
+    minimumAge: number;
+    underageNote?: string;
+    documents: { label: string; detail: string }[];
+  };
   out: string;
   fig: string;
   img: string;
+  calendarImage: keyof typeof IMG;
   soon: boolean;
 };
 
 export const programs: Program[] = [
   {
     code: "TMA-552",
+    publicCode: "TMA-01",
     name: "Técnico de Mantenimiento Aeronáutico",
-    dur: "30 MESES",
-    mode: "Presencial · hangar y aula, turno mañana o tarde",
-    req: "Secundaria completa · 17 años mín. · Examen de aptitud técnica",
+    dur: "7 MESES INTENSIVOS",
+    mode: "Presencial",
+    startDate: "11 de enero de 2027",
+    startDateISO: "2027-01-11",
+    capacity: 20,
+    admission: {
+      minimumAge: 17,
+      underageNote:
+        "Si aún no tienes 18 años, presenta autorización firmada de tu representante legal y copia de su cédula de identidad.",
+      documents: [
+        { label: "Identificación personal", detail: "Copia legible de la cédula de identidad vigente." },
+        {
+          label: "Soporte académico",
+          detail:
+            "Copia del título de Bachiller o de Educación Superior, junto con las Notas Certificadas de Educación Media General originales.",
+        },
+        { label: "Registro civil", detail: "Copia del acta de nacimiento." },
+        {
+          label: "Identificación visual",
+          detail: "Dos fotografías recientes, tamaño carnet, con fondo blanco.",
+        },
+        {
+          label: "Material de archivo",
+          detail:
+            "Una carpeta marrón tamaño oficio, provista de gancho, destinada a la apertura y resguardo del expediente académico del alumno.",
+        },
+      ],
+    },
     out: "Talleres OMAC, líneas aéreas y aviación general. Con habilitaciones en sistema motopropulsor y aviónica hacia la licencia TMA (INAC).",
     fig: "Célula y motores",
     img: IMG.turbine,
+    calendarImage: "turbine",
     soon: false,
   },
   {
     code: "TCP-552",
+    publicCode: "TDC-01",
     name: "Tripulante de Cabina",
-    dur: "12 MESES",
-    mode: "Presencial · aula y maqueta de cabina",
-    req: "Secundaria completa · 18 años mín. · Aptitud psicofísica",
+    dur: "6 MESES",
+    mode: "Presencial",
+    startDate: "11 de enero de 2027",
+    startDateISO: "2027-01-11",
+    capacity: 20,
+    admission: {
+      minimumAge: 17,
+      underageNote:
+        "Si aún no tienes 18 años, presenta autorización firmada de tu representante legal y copia de su cédula de identidad.",
+      documents: [
+        { label: "Identificación personal", detail: "Copia legible de la cédula de identidad vigente." },
+        {
+          label: "Soporte académico",
+          detail:
+            "Copia del título de Bachiller o de Educación Superior, junto con las Notas Certificadas de Educación Media General originales.",
+        },
+        { label: "Registro civil", detail: "Copia del acta de nacimiento." },
+        { label: "Aptitud psicofísica", detail: "Precalificativo médico." },
+        {
+          label: "Identificación visual",
+          detail: "Dos fotografías recientes, tamaño carnet, con fondo blanco.",
+        },
+        {
+          label: "Material de archivo",
+          detail:
+            "Una carpeta marrón tamaño oficio, provista de gancho, destinada a la apertura y resguardo del expediente académico del alumno.",
+        },
+      ],
+    },
     out: "Tripulante de cabina en aerolíneas comerciales. Licencia TCP (INAC).",
     fig: "Cabina de pasajeros",
     img: IMG.cabinCrew,
+    calendarImage: "cabinCrew",
     soon: false,
   },
   {
     code: "DV-552",
+    publicCode: "DDV-01",
     name: "Despacho de Vuelo",
-    dur: "12 MESES",
-    mode: "Presencial + virtual síncrono",
-    req: "Secundaria completa · Inglés básico · Entrevista",
+    dur: "6 MESES",
+    mode: "Presencial",
+    startDate: "11 de enero de 2027",
+    startDateISO: "2027-01-11",
+    capacity: 20,
+    admission: {
+      minimumAge: 20,
+      documents: [
+        { label: "Identificación personal", detail: "Copia legible de la cédula de identidad vigente." },
+        {
+          label: "Soporte académico",
+          detail:
+            "Copia del título de Bachiller o de Educación Superior, junto con las Notas Certificadas de Educación Media General originales.",
+        },
+        { label: "Registro civil", detail: "Copia del acta de nacimiento." },
+        {
+          label: "Identificación visual",
+          detail: "Dos fotografías recientes, tamaño carnet, con fondo blanco.",
+        },
+        {
+          label: "Material de archivo",
+          detail:
+            "Una carpeta marrón tamaño oficio, provista de gancho, destinada a la apertura y resguardo del expediente académico del alumno.",
+        },
+      ],
+    },
     out: "Centros de control de operaciones (CCO) de aerolíneas. Licencia DV.",
     fig: "Plan de vuelo",
     img: IMG.planeBlueSky,
+    calendarImage: "planeBlueSky",
     soon: false,
   },
 ];
@@ -90,13 +181,21 @@ export type Cohort = {
   dateColor: string;
 };
 
-export const cohorts: Cohort[] = [
-  { id: "C-26A", date: "09 MAR 26", prog: "TMA · MANTENIMIENTO", seats: "0 / 24", status: "CERRADA", stColor: "var(--mid)", dateColor: "var(--mid)" },
-  { id: "C-26B", date: "07 SEP 26", prog: "TMA · CÉLULA Y MOTORES", seats: "5 / 24", status: "ÚLTIMOS CUPOS", stColor: "var(--accent)", dateColor: "var(--ink)" },
-  { id: "C-26C", date: "02 NOV 26", prog: "DV · DESPACHO DE VUELO", seats: "14 / 18", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
-  { id: "C-27A", date: "11 ENE 27", prog: "TCP · TRIPULANTE DE CABINA", seats: "24 / 24", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
-  { id: "C-27B", date: "15 MAR 27", prog: "TMA · HAB. AVIÓNICA", seats: "20 / 20", status: "ABIERTA", stColor: "var(--lt)", dateColor: "var(--ink)" },
-];
+const SHORT_MONTHS = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
+const shortDate = (iso: string) => {
+  const [year, month, day] = iso.split("-");
+  return `${day} ${SHORT_MONTHS[Number(month) - 1]} ${year.slice(-2)}`;
+};
+
+export const cohorts: Cohort[] = programs.map((program, index) => ({
+  id: `C-27${String.fromCharCode(65 + index)}`,
+  date: shortDate(program.startDateISO),
+  prog: `${program.publicCode} · ${program.name.toUpperCase()}`,
+  seats: `${program.capacity} alumnos por curso`,
+  status: "INICIO DE CLASES",
+  stColor: "var(--lt)",
+  dateColor: "var(--ink)",
+}));
 
 export type Post = { cat: string; date: string; title: string; lede: string; img: string };
 
@@ -105,7 +204,7 @@ export const posts: Post[] = [
     cat: "MANTENIMIENTO",
     date: "12 AGO 2026",
     title: "Técnico en mantenimiento: quien decide si una aeronave vuela",
-    lede: "Inspecciona, repara y certifica célula, motores y sistemas en talleres OMAC y líneas aéreas. Con sus habilitaciones (sistema motopropulsor y aviónica) firma la aeronavegabilidad: sin su visto bueno, el avión no despega.",
+    lede: "Inspecciona, repara y certifica célula, motores y sistemas en aeronaves que estén bajo órdenes de trabajo en organizaciones de mantenimiento y líneas aéreas certificados por la Autoridad Aeronáutica.",
     img: IMG.turbine,
   },
   {

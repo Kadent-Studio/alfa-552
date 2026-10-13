@@ -77,7 +77,6 @@ export default function PensumPage() {
 
             {/* Aggregate figures (count up on view) */}
             <div className="mt-2 flex flex-wrap gap-x-10 gap-y-5 border-t border-[var(--hairline)] pt-6">
-              <IntroStat count={programs.length} label="RUTAS DE FORMACIÓN" />
               <IntroStat count={3} label="HABILITACIONES TMA" />
               <IntroStat count={1100} suffix=" H" label="TMA + CÉLULA" gold />
               <IntroStat count={322} suffix=" H" label="DESPACHO · TEORÍA" />

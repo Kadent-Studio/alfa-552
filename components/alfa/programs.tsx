@@ -57,7 +57,7 @@ export function Programs() {
             </div>
             <div className="flex items-center justify-between border-t border-[var(--hairline)] px-6 py-5">
               <span className="mono text-[11px] tracking-[0.1em] text-[var(--mid)]">
-                FIG. {fig.code}
+                FIG. {fig.publicCode}
               </span>
               <span className="mono text-[11px] tracking-[0.1em] text-[var(--lt)]">
                 {fig.fig}
@@ -89,7 +89,7 @@ export function Programs() {
                         p.soon ? "text-[var(--accent-text)]" : "text-[var(--mid)]"
                       }`}
                     >
-                      {p.code}
+                      {p.publicCode}
                     </span>
                     <span className="flex flex-wrap items-center gap-x-3 gap-y-2 text-[clamp(19px,2.2vw,30px)] font-semibold leading-[1.12] tracking-[-0.02em]">
                       {p.name}
@@ -111,13 +111,77 @@ export function Programs() {
                     </span>
                   </AccordionTrigger>
                   <AccordionContent className="p-0">
-                    <div className="grid gap-6 px-5 pb-8 md:grid-cols-3 md:gap-8 md:pl-[142px] md:pr-8">
+                    <div className="grid gap-7 px-5 pb-8 md:pl-[142px] md:pr-8">
                       <span className="mono text-[11px] tracking-[0.08em] text-[var(--mid)] md:hidden">
                         {p.dur}
                       </span>
-                      <Field label="MODALIDAD" value={p.mode} />
-                      <Field label="REQUISITOS DE INGRESO" value={p.req} />
-                      <Field label="SALIDA PROFESIONAL" value={p.out} />
+                      <div className="grid gap-x-6 gap-y-5 border-b border-[var(--hairline)] pb-6 sm:grid-cols-2 sm:gap-x-8">
+                        <Field label="MODALIDAD" value={p.mode} />
+                        <Field label="INICIO" value={p.startDate} />
+                        <Field label="CUPO POR CURSO" value={`${p.capacity} alumnos`} />
+                        <Field label="MERCADO PROFESIONAL" value={p.out} />
+                      </div>
+
+                      <section
+                        aria-labelledby={`admission-${p.code}`}
+                        className="grid gap-6 lg:grid-cols-[minmax(190px,0.72fr)_minmax(0,1.28fr)] lg:gap-8"
+                      >
+                        <div className="flex flex-col gap-4">
+                          <div className="flex flex-col gap-3 border border-[var(--hairline)] bg-[var(--surface)] p-5">
+                            <span className="mono text-[10px] tracking-[0.14em] text-[var(--mid)]">
+                              EDAD MÍNIMA
+                            </span>
+                            <span className="text-[22px] font-semibold leading-tight tracking-[-0.02em]">
+                              {p.admission.minimumAge} años cumplidos
+                            </span>
+                          </div>
+                          {p.admission.underageNote && (
+                            <p className="border-l-2 border-[var(--accent)] pl-4 text-[13px] leading-relaxed text-[var(--lt)]">
+                              <span className="mb-1 block mono text-[9px] tracking-[0.12em] text-[var(--accent-text)]">
+                                ASPIRANTES MENORES DE 18
+                              </span>
+                              {p.admission.underageNote}
+                            </p>
+                          )}
+                        </div>
+
+                        <div>
+                          <div className="mb-4 flex flex-wrap items-baseline justify-between gap-2 border-b border-[var(--hairline)] pb-3">
+                            <h3
+                              id={`admission-${p.code}`}
+                              className="text-[17px] font-semibold tracking-[-0.015em]"
+                            >
+                              Recaudos para admisión
+                            </h3>
+                            <span className="mono text-[9px] tracking-[0.1em] text-[var(--mid)]">
+                              {String(p.admission.documents.length).padStart(2, "0")} DOCUMENTOS
+                            </span>
+                          </div>
+                          <ul className="grid gap-x-7 sm:grid-cols-2">
+                            {p.admission.documents.map((document, index) => (
+                              <li
+                                key={`${document.label}-${index}`}
+                                className="flex gap-3 border-t border-[var(--hairline)] py-4"
+                              >
+                                <span
+                                  aria-hidden
+                                  className="mono mt-0.5 shrink-0 text-[10px] tracking-[0.08em] text-[var(--accent-text)]"
+                                >
+                                  {String(index + 1).padStart(2, "0")}
+                                </span>
+                                <span className="flex flex-col gap-1.5">
+                                  <span className="text-[13px] font-semibold leading-snug text-[var(--ink)]">
+                                    {document.label}
+                                  </span>
+                                  <span className="text-[12px] leading-relaxed text-[var(--lt)]">
+                                    {document.detail}
+                                  </span>
+                                </span>
+                              </li>
+                            ))}
+                          </ul>
+                        </div>
+                      </section>
                     </div>
                   </AccordionContent>
                 </AccordionItem>

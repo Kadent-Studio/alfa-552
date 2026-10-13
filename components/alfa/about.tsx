@@ -3,7 +3,7 @@ import { IMG } from "./images";
 
 const STATS = [
   { count: String(YEARS), suffix: " AÑOS", label: "DE OPERACIÓN", accent: false },
-  { count: "750", suffix: "+", label: "TÉCNICOS EGRESADOS", accent: true },
+  { count: "750", suffix: "+", label: "PROFESIONALES EGRESADOS", accent: true },
   { count: "92", suffix: "%", label: "EMPLEABILIDAD 12M", accent: false },
 ];
 

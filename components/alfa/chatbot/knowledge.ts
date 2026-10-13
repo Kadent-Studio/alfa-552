@@ -54,8 +54,8 @@ const has = (q: string, ...words: string[]) => words.some((w) => q.includes(w));
 
 function answerProgramas(): BotReply {
   const lines = landingPrograms.map((p) => {
-    const estado = p.soon ? "en certificación" : p.dur.toLowerCase();
-    return `${p.code} · ${p.name} (${estado})`;
+    const duracion = p.soon ? "en certificación" : p.dur.toLowerCase();
+    return `${p.publicCode} · ${p.name} (${duracion}, ${p.mode.toLowerCase()}) · inicio ${p.startDate} · ${p.capacity} alumnos por curso`;
   });
   return {
     icon: "programas",
@@ -63,49 +63,50 @@ function answerProgramas(): BotReply {
       "Formamos en tres programas bajo las Regulaciones Aeronáuticas Venezolanas (INAC · CCIA-89):\n\n" +
       lines.join("\n") +
       "\n\n¿Sobre cuál quieres detalle?",
-    chips: ["Requisitos de TMA-552", "Duración de cada programa", "Ver el pensum"],
+    chips: ["Requisitos de TMA-01", "Requisitos de TDC-01", "Requisitos de DDV-01"],
   };
 }
 
 function answerCupos(): BotReply {
   const abiertas = cohorts.filter((c) => c.status !== "CERRADA");
   const lines = abiertas.map(
-    (c) => `${c.date} · ${c.prog}: ${c.seats} (${c.status})`,
+    (c) => `${c.date} · ${c.prog}: ${c.seats}`,
   );
   return {
     icon: "cupos",
     text:
-      "Estado de cupos por cohorte (actualizado):\n\n" +
+      "Capacidad por curso:\n\n" +
       lines.join("\n") +
-      "\n\nLos cupos se asignan por orden de inscripción. ¿Quieres que un asesor te reserve uno?",
-    chips: ["Fechas de ingreso", "Requisitos de admisión", "Hablar con un asesor"],
+      "\n\n¿Qué programa te interesa?",
+    chips: ["TMA-01", "TDC-01", "DDV-01"],
   };
 }
 
 function answerFechas(): BotReply {
   const proximas = cohorts.filter((c) => c.status !== "CERRADA");
-  const lines = proximas.map((c) => `· ${c.date} · ${c.prog} (${c.status})`);
+  const lines = proximas.map((c) => `· ${c.date} · ${c.prog} · ${c.seats}`);
   return {
     icon: "fechas",
     text:
       "Próximas fechas de ingreso:\n\n" +
       lines.join("\n") +
-      "\n\nCada cohorte abre inscripciones unas ocho semanas antes del inicio.",
+      "\n\nConsulta con Admisión los pasos para inscribirte.",
     chips: ["¿Hay cupos disponibles?", "Requisitos de admisión"],
   };
 }
 
 function answerRequisitos(): BotReply {
+  const ages = landingPrograms.map(
+    (program) => `· ${program.publicCode} · ${program.name}: ${program.admission.minimumAge} años`,
+  );
   return {
     icon: "requisitos",
     text:
-      "Requisitos generales de admisión:\n\n" +
-      "· Educación media (secundaria) completa\n" +
-      "· Edad mínima: 17 años (18 para Tripulante de Cabina)\n" +
-      "· Examen de aptitud técnica o entrevista, según el programa\n" +
-      "· Aptitud psicofísica para TCP-552\n\n" +
-      "El detalle exacto depende del programa. ¿Cuál te interesa?",
-    chips: ["Programas disponibles", "Fechas de ingreso", "Hablar con un asesor"],
+      "La edad mínima cambia según el programa:\n\n" +
+      ages.join("\n") +
+      "\n\n" +
+      "Cada ficha incluye los recaudos completos. ¿De cuál programa quieres verlos?",
+    chips: ["Requisitos de TMA-01", "Requisitos de TDC-01", "Requisitos de DDV-01"],
   };
 }
 
@@ -130,7 +131,7 @@ function answerPensum(): BotReply {
 
 function answerDuracion(): BotReply {
   const lines = landingPrograms.map(
-    (p) => `${p.code} · ${p.soon ? "en certificación" : p.dur.toLowerCase()}`,
+    (p) => `${p.publicCode} · ${p.soon ? "en certificación" : p.dur.toLowerCase()}`,
   );
   return {
     icon: "duracion",
@@ -140,7 +141,7 @@ function answerDuracion(): BotReply {
 }
 
 function answerModalidad(): BotReply {
-  const lines = landingPrograms.map((p) => `${p.code} · ${p.mode}`);
+  const lines = landingPrograms.map((p) => `${p.publicCode} · ${p.mode}`);
   return {
     icon: "modalidad",
     text: "Modalidad de cada programa:\n\n" + lines.join("\n"),
@@ -173,7 +174,7 @@ function answerInac(): BotReply {
     icon: "inac",
     text:
       "CIA ALFA 552 es un Centro de Instrucción Aeronáutica certificado por el INAC (Instituto Nacional de Aeronáutica Civil) bajo el código CCIA-89, " +
-      `fundado en ${FOUNDED} y con más de 750 egresados. Las licencias las emite el INAC: nuestros programas te preparan para sus evaluaciones conforme a las Regulaciones Aeronáuticas Venezolanas.`,
+      `fundado en ${FOUNDED} y con más de 750 Profesionales Egresados. Las licencias las emite el INAC: nuestros programas te preparan para sus evaluaciones conforme a las Regulaciones Aeronáuticas Venezolanas.`,
     chips: ["Programas disponibles", "Ver el pensum"],
   };
 }
@@ -181,9 +182,9 @@ function answerInac(): BotReply {
 /** Try to detect a specific program mentioned by code or keyword. */
 function answerProgramaEspecifico(q: string): BotReply | null {
   const map: { keys: string[]; code: string }[] = [
-    { keys: ["tma", "mantenimiento", "motor", "turbina", "celula", "avionica", "instrumento", "electric", "habilitacion"], code: "TMA-552" },
-    { keys: ["tcp", "cabina", "tripulante", "azafat", "aeromoza", "auxiliar de vuelo"], code: "TCP-552" },
-    { keys: ["dv", "despacho", "despachador"], code: "DV-552" },
+    { keys: ["tma-01", "tma-552", "mantenimiento", "motor", "turbina", "celula", "avionica", "instrumento", "electric", "habilitacion"], code: "TMA-552" },
+    { keys: ["tdc-01", "tcp-552", "tcp", "cabina", "tripulante", "azafat", "aeromoza", "auxiliar de vuelo"], code: "TCP-552" },
+    { keys: ["ddv-01", "dv-552", "despacho", "despachador"], code: "DV-552" },
   ];
   for (const m of map) {
     if (has(q, ...m.keys)) {
@@ -192,11 +193,15 @@ function answerProgramaEspecifico(q: string): BotReply | null {
       return {
         icon: "programas",
         text:
-          `${p.code} · ${p.name}\n\n` +
+          `${p.publicCode} · ${p.name}\n\n` +
           `· Duración: ${p.dur.toLowerCase()}\n` +
           `· Modalidad: ${p.mode}\n` +
-          `· Requisitos: ${p.req}\n` +
-          `· Salida profesional: ${p.out}`,
+          `· Inicio: ${p.startDate}\n` +
+          `· Cupo: ${p.capacity} alumnos por curso\n` +
+          `· Edad mínima: ${p.admission.minimumAge} años\n` +
+          (p.admission.underageNote ? `· Menores de 18: ${p.admission.underageNote}\n` : "") +
+          `· Recaudos: ${p.admission.documents.map((document) => document.label).join("; ")}\n` +
+          `· Mercado profesional: ${p.out}`,
         chips: ["¿Hay cupos disponibles?", "Fechas de ingreso", "Ver el pensum"],
       };
     }
@@ -243,8 +248,9 @@ export function getBotReply(input: string): BotReply {
     return answerFechas();
 
   // Requisitos / admisión
-  if (has(q, "requisit", "admis", "necesito", "hace falta", "pedir", "aptitud"))
-    return answerRequisitos();
+  if (has(q, "requisit", "admis", "necesito", "hace falta", "pedir", "aptitud")) {
+    return answerProgramaEspecifico(q) ?? answerRequisitos();
+  }
 
   // Pensum / malla / materias
   if (has(q, "pensum", "malla", "materia", "asignatura", "curricul", "credito", "horas", "plan de estudio"))
@@ -287,7 +293,7 @@ export function getBotReply(input: string): BotReply {
     chips: [
       "¿Qué programas ofrecen?",
       "¿Hay cupos disponibles?",
-      "Requisitos de admisión",
+      "Requisitos de TMA-01",
       "Hablar con un asesor",
     ],
   };

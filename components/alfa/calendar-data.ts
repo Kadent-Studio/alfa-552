@@ -5,6 +5,7 @@
 // component, so this file stays framework-agnostic.
 
 import { IMG } from "./images";
+import { programs } from "./data";
 
 /** Category = "calendar" in Schedule-X terms. Single-accent system:
  *  gold is reserved for enrollment (the action that matters most); every other
@@ -45,7 +46,7 @@ export type CourseEvent = {
   id: string;
   category: CategoryId;
   title: string;
-  /** Program code shown as a technical tag, e.g. "TMA-552". Empty for open days. */
+  /** Public program code shown as a technical tag, e.g. "TMA-01". */
   program: string;
   /** ISO date "YYYY-MM-DD". */
   date: string;
@@ -63,10 +64,23 @@ export type CourseEvent = {
   desc: string;
 };
 
-// Anchor month: September 2026 (aligns with cohort C-26B, "07 SEP 26").
-export const CALENDAR_ANCHOR = "2026-09-15";
+// Anchor month: January 2027, when the three announced courses begin.
+export const CALENDAR_ANCHOR = programs[0].startDateISO;
 
 export const events: CourseEvent[] = [
+  ...programs.map((program): CourseEvent => ({
+    id: `start-${program.publicCode.toLowerCase()}`,
+    category: "clase",
+    title: `Inicio de clases · ${program.publicCode}`,
+    program: program.publicCode,
+    date: program.startDateISO,
+    docente: "Inicio de cohorte",
+    location: "CIA ALFA 552 · Maracaibo",
+    modalidad: "Presencial",
+    cupos: `${program.capacity} alumnos por curso`,
+    img: program.calendarImage,
+    desc: `Inicio de ${program.name}. Capacidad: ${program.capacity} alumnos por curso.`,
+  })),
   // ---- Enrollment windows (gold, all-day, span several days) ---------------
   {
     id: "ins-c26b",
@@ -352,11 +366,11 @@ export const events: CourseEvent[] = [
     date: "2026-09-19",
     start: "16:00",
     end: "17:30",
-    docente: "Egresados CIA ALFA 552",
+    docente: "Profesionales Egresados · CIA ALFA 552",
     location: "Auditorio · Campus",
     modalidad: "Híbrido",
     cupos: "Entrada libre",
     img: "cabinCrew",
-    desc: "Egresados cuentan cómo es la carrera técnica y el paso del aula al hangar.",
+    desc: "Nuestros Profesionales Egresados cuentan cómo es la carrera técnica y el paso del aula al hangar.",
   },
 ];

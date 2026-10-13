@@ -2,7 +2,7 @@ import { FOUNDED } from "./data";
 
 const STATS = [
   { label: "FUNDACIÓN", value: String(FOUNDED) },
-  { label: "TÉCNICOS EGRESADOS", value: "750+" },
+  { label: "PROFESIONALES EGRESADOS", value: "750+" },
   { label: "CERTIFICACIÓN", value: "INAC · CCIA-89" },
   { label: "BASE DE OPERACIONES", value: "MARACAIBO · ZULIA" },
 ];

@@ -100,9 +100,9 @@ export function Admission() {
                 position="popper"
                 className="border border-[var(--line)] bg-[var(--surface)] text-[var(--ink)]"
               >
-                <SelectItem value="TMA">TMA-552 · MANTENIMIENTO AERONÁUTICO</SelectItem>
-                <SelectItem value="TCP">TCP-552 · TRIPULANTE DE CABINA</SelectItem>
-                <SelectItem value="DV">DV-552 · DESPACHO DE VUELO</SelectItem>
+                <SelectItem value="TMA">TMA-01 · MANTENIMIENTO AERONÁUTICO</SelectItem>
+                <SelectItem value="TCP">TDC-01 · TRIPULANTE DE CABINA</SelectItem>
+                <SelectItem value="DV">DDV-01 · DESPACHO DE VUELO</SelectItem>
               </SelectContent>
             </Select>
           </Row>

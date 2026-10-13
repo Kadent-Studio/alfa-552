@@ -95,6 +95,8 @@ export function ChatWidget() {
   const [typing, setTyping] = React.useState(false);
   const [draft, setDraft] = React.useState("");
   const [unread, setUnread] = React.useState(false);
+  const [hintVisible, setHintVisible] = React.useState(true);
+  const [hintActive, setHintActive] = React.useState(false);
 
   const inputRef = React.useRef<HTMLInputElement>(null);
   const timers = React.useRef<ReturnType<typeof setTimeout>[]>([]);
@@ -104,6 +106,24 @@ export function ChatWidget() {
     const t = timers.current;
     return () => t.forEach(clearTimeout);
   }, []);
+
+  // Periodically reveal the assistant's purpose while the chat is closed.
+  React.useEffect(() => {
+    if (open) return;
+
+    let hideTimer: ReturnType<typeof setTimeout>;
+    const revealHint = () => {
+      setHintVisible(true);
+      hideTimer = setTimeout(() => setHintVisible(false), 2600);
+    };
+
+    revealHint();
+    const interval = setInterval(revealHint, 11000);
+    return () => {
+      clearInterval(interval);
+      clearTimeout(hideTimer);
+    };
+  }, [open]);
 
   // Focus the input once the panel has animated in (DOM sync only).
   React.useEffect(() => {
@@ -234,66 +254,111 @@ export function ChatWidget() {
       </AnimatePresence>
 
       {/* ---- Launcher ---------------------------------------------------- */}
-      <motion.button
-        type="button"
-        onClick={toggleOpen}
-        aria-label={open ? "Cerrar asistente" : "Abrir asistente CIA ALFA 552"}
-        aria-expanded={open}
-        initial={reduce ? false : { opacity: 0, scale: 0.6 }}
-        animate={{ opacity: 1, scale: 1 }}
-        transition={{ duration: 0.5, ease: EASE, delay: 0.4 }}
-        whileHover={reduce ? undefined : { scale: 1.06 }}
-        whileTap={reduce ? undefined : { scale: 0.94 }}
-        className="fixed bottom-5 right-5 z-[72] flex size-[3.75rem] items-center justify-center border border-[var(--accent)] bg-[var(--accent)] text-[var(--accent-ink)] shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
+      <div
+        className="fixed bottom-5 right-5 z-[72] size-[3.75rem]"
+        onMouseEnter={() => setHintActive(true)}
+        onMouseLeave={() => setHintActive(false)}
+        onFocusCapture={() => setHintActive(true)}
+        onBlurCapture={(event) => {
+          if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+            setHintActive(false);
+          }
+        }}
       >
-        {/* Idle radar ping while closed. */}
-        {!reduce && !open && (
-          <motion.span
-            aria-hidden
-            className="pointer-events-none absolute inset-0 border border-[var(--accent)]"
-            initial={{ opacity: 0.5, scale: 1 }}
-            animate={{ opacity: 0, scale: 1.5 }}
-            transition={{ duration: 2.4, ease: "easeOut", repeat: Infinity }}
-          />
-        )}
-
-        <AnimatePresence mode="wait" initial={false}>
-          {open ? (
+        <AnimatePresence>
+          {!open && (hintVisible || hintActive) && (
             <motion.span
-              key="close"
-              initial={reduce ? false : { rotate: -90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={reduce ? { opacity: 0 } : { rotate: 90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="flex"
+              key="assistant-hint"
+              aria-hidden="true"
+              initial={
+                reduce
+                  ? { opacity: 0 }
+                  : { opacity: 0, transform: "translateX(8px) scale(0.96)" }
+              }
+              animate={
+                reduce
+                  ? { opacity: 1 }
+                  : { opacity: 1, transform: "translateX(0px) scale(1)" }
+              }
+              exit={
+                reduce
+                  ? { opacity: 0, transition: { duration: 0.12 } }
+                  : {
+                      opacity: 0,
+                      transform: "translateX(5px) scale(0.98)",
+                      transition: { duration: 0.16, ease: EASE },
+                    }
+              }
+              transition={reduce ? { duration: 0.12 } : { duration: 0.22, ease: EASE }}
+              style={{ transformOrigin: "right center" }}
+              className="mono absolute inset-y-0 right-[calc(100%+0.75rem)] my-auto h-fit whitespace-nowrap border border-[var(--line)] bg-[var(--surface)] px-3 py-2 text-[11px] tracking-[0.08em] text-[var(--accent-text)] shadow-[0_8px_28px_rgba(0,0,0,0.3)]"
             >
-              <X className="size-6" strokeWidth={2} />
-            </motion.span>
-          ) : (
-            <motion.span
-              key="open"
-              initial={reduce ? false : { rotate: 90, opacity: 0 }}
-              animate={{ rotate: 0, opacity: 1 }}
-              exit={reduce ? { opacity: 0 } : { rotate: -90, opacity: 0 }}
-              transition={{ duration: 0.2 }}
-              className="flex"
-            >
-              <Plane className="size-6 -rotate-45" strokeWidth={2} />
+              Asistente Virtual
             </motion.span>
           )}
         </AnimatePresence>
 
-        {/* Unread mark when a reply lands while the panel is closed. */}
-        {unread && !open && (
-          <motion.span
-            aria-hidden
-            initial={reduce ? false : { scale: 0 }}
-            animate={{ scale: 1 }}
-            transition={SPRING}
-            className="absolute -right-1 -top-1 size-3 border border-[var(--surface)] bg-[var(--ink)]"
-          />
-        )}
-      </motion.button>
+        <motion.button
+          type="button"
+          onClick={toggleOpen}
+          aria-label={open ? "Cerrar asistente" : "Abrir Asistente Virtual CIA ALFA 552"}
+          aria-expanded={open}
+          initial={reduce ? false : { opacity: 0, scale: 0.92 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ duration: 0.5, ease: EASE, delay: 0.4 }}
+          whileHover={reduce ? undefined : { scale: 1.06 }}
+          whileTap={reduce ? undefined : { scale: 0.94 }}
+          className="absolute inset-0 flex size-full items-center justify-center border border-[var(--accent)] bg-[var(--accent)] text-[var(--accent-ink)] shadow-[0_12px_40px_rgba(0,0,0,0.45)]"
+        >
+          {/* Idle radar ping while closed. */}
+          {!reduce && !open && (
+            <motion.span
+              aria-hidden
+              className="pointer-events-none absolute inset-0 border border-[var(--accent)]"
+              initial={{ opacity: 0.5, scale: 1 }}
+              animate={{ opacity: 0, scale: 1.5 }}
+              transition={{ duration: 2.4, ease: "easeOut", repeat: Infinity }}
+            />
+          )}
+
+          <AnimatePresence mode="wait" initial={false}>
+            {open ? (
+              <motion.span
+                key="close"
+                initial={reduce ? false : { rotate: -90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={reduce ? { opacity: 0 } : { rotate: 90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex"
+              >
+                <X className="size-6" strokeWidth={2} />
+              </motion.span>
+            ) : (
+              <motion.span
+                key="open"
+                initial={reduce ? false : { rotate: 90, opacity: 0 }}
+                animate={{ rotate: 0, opacity: 1 }}
+                exit={reduce ? { opacity: 0 } : { rotate: -90, opacity: 0 }}
+                transition={{ duration: 0.2 }}
+                className="flex"
+              >
+                <Plane className="size-6 -rotate-45" strokeWidth={2} />
+              </motion.span>
+            )}
+          </AnimatePresence>
+
+          {/* Unread mark when a reply lands while the panel is closed. */}
+          {unread && !open && (
+            <motion.span
+              aria-hidden
+              initial={reduce ? false : { scale: 0 }}
+              animate={{ scale: 1 }}
+              transition={SPRING}
+              className="absolute -right-1 -top-1 size-3 border border-[var(--surface)] bg-[var(--ink)]"
+            />
+          )}
+        </motion.button>
+      </div>
     </>
   );
 }

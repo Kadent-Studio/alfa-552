@@ -8,6 +8,7 @@ import { SiteHeader } from "@/components/alfa/site-header";
 import { SiteFooter } from "@/components/alfa/site-footer";
 import { CourseCalendar } from "@/components/alfa/course-calendar";
 import { events, CATEGORY_MAP } from "@/components/alfa/calendar-data";
+import { programs } from "@/components/alfa/data";
 
 const PAGE_TITLE = "Calendario académico";
 const PAGE_DESCRIPTION =
@@ -26,9 +27,9 @@ export const metadata: Metadata = {
   },
 };
 
-// A few standout dates for the "fechas clave" band (static, from the data set).
-const HIGHLIGHTS = ["ins-cierre", "rec-openhouse", "exm-tma"]
-  .map((id) => events.find((e) => e.id === id))
+// Show each program's next start date in the "fechas clave" band.
+const HIGHLIGHTS = programs
+  .map((program) => events.find((event) => event.program === program.publicCode))
   .filter((e): e is (typeof events)[number] => Boolean(e));
 
 const MES3 = ["ENE", "FEB", "MAR", "ABR", "MAY", "JUN", "JUL", "AGO", "SEP", "OCT", "NOV", "DIC"];
