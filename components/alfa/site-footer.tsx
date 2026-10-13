@@ -44,6 +44,7 @@ const COLS = [
 
 const SOCIAL = [
   { label: "INSTAGRAM", href: "https://www.instagram.com/alfa552_ccia89/?utm_source=ig_web_button_share_sheet", external: true },
+  { label: "TIKTOK", href: "https://tiktok.com/@alfa552.cia", external: true },
   { label: "LINKEDIN", href: "#sec-hero" },
   { label: "YOUTUBE", href: "#sec-hero" },
 ];
