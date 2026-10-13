@@ -37,11 +37,11 @@ export function Hero() {
           style={{ transitionDelay: "0.08s" }}
           className="max-w-[22ch] text-[clamp(38px,5.4vw,80px)] font-extrabold leading-[0.98] tracking-[-0.03em]"
         >
-          Se ingresa con vocación.
+          DONDE TUS SUEÑOS
           <br />
-          Se sale con{" "}
-          <span className="text-[var(--accent-text)]">profesión</span> de la
-          aviación.
+          <span className="text-[var(--accent-text)]">TOMAN VUELO</span> Y SE
+          <br />
+          CONVIERTEN EN TU FUTURO.
         </h1>
 
         <p

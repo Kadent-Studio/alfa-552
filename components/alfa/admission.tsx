@@ -18,14 +18,23 @@ const inputClass =
   "h-auto rounded-none border-0 bg-transparent px-0 py-1 text-[15px] text-[var(--ink)] shadow-none focus-visible:ring-0 dark:bg-transparent placeholder:text-[var(--mid)]";
 
 export function Admission() {
-  const [f1, setF1] = useState(false);
-  const [f2, setF2] = useState(false);
-  const [f3, setF3] = useState(false);
-  const [f4, setF4] = useState(false);
-  const [sent, setSent] = useState(false);
+  const [name, setName] = useState("");
+  const [email, setEmail] = useState("");
+  const [phone, setPhone] = useState("");
+  const [program, setProgram] = useState("");
+  const [prepared, setPrepared] = useState(false);
 
+  const f1 = name.trim().length > 2;
+  const f2 = /.+@.+\..+/.test(email);
+  const f3 = phone.replace(/\D/g, "").length >= 7;
+  const f4 = Boolean(program);
   const all = f1 && f2 && f3 && f4;
   const stat = (ok: boolean) => (ok ? "● CONFIRMADO" : "○ PENDIENTE");
+  const mailto = `mailto:${CONTACT.email}?subject=${encodeURIComponent(
+    "Solicitud de admisión - CIA ALFA 552",
+  )}&body=${encodeURIComponent(
+    `Nueva solicitud de admisión\n\nNombre: ${name.trim()}\nCorreo: ${email.trim()}\nTeléfono / WhatsApp: ${phone.trim()}\nPrograma de interés: ${program}`,
+  )}`;
 
   return (
     <section id="sec-cta" className="border-b border-[var(--hairline)]">
@@ -40,8 +49,9 @@ export function Admission() {
           <span className="text-[var(--accent-text)]">despegar.</span>
         </h2>
         <p className="max-w-[44ch] text-[16px] leading-relaxed text-[var(--lt)]">
-          Completa la lista y un asesor de admisión te contacta en menos de 48
-          horas con requisitos, costos y fechas de examen.
+          Completa la lista y prepara tu solicitud en el correo. Cuando la envíes,
+          un asesor de admisión te contactará en menos de 48 horas con requisitos,
+          costos y fechas de examen.
         </p>
       </div>
 
@@ -55,7 +65,11 @@ export function Admission() {
               id="f-name"
               className={inputClass}
               placeholder="APELLIDOS, NOMBRES"
-              onChange={(e) => setF1(e.target.value.trim().length > 2)}
+              value={name}
+              onChange={(e) => {
+                setName(e.target.value);
+                setPrepared(false);
+              }}
             />
           </Row>
 
@@ -68,7 +82,11 @@ export function Admission() {
               type="email"
               className={inputClass}
               placeholder="NOMBRE@DOMINIO.COM"
-              onChange={(e) => setF2(/.+@.+\..+/.test(e.target.value))}
+              value={email}
+              onChange={(e) => {
+                setEmail(e.target.value);
+                setPrepared(false);
+              }}
             />
           </Row>
 
@@ -81,7 +99,11 @@ export function Admission() {
               type="tel"
               className={inputClass}
               placeholder="+58 000 000 0000"
-              onChange={(e) => setF3(e.target.value.replace(/\D/g, "").length >= 7)}
+              value={phone}
+              onChange={(e) => {
+                setPhone(e.target.value);
+                setPrepared(false);
+              }}
             />
           </Row>
 
@@ -89,7 +111,13 @@ export function Admission() {
             <Label htmlFor="f-prog" className="mono text-[10px] tracking-[0.14em] text-[var(--mid)]">
               PROGRAMA DE INTERÉS
             </Label>
-            <Select onValueChange={(v) => setF4(!!v)}>
+            <Select
+              value={program}
+              onValueChange={(value) => {
+                setProgram(value);
+                setPrepared(false);
+              }}
+            >
               <SelectTrigger
                 id="f-prog"
                 className="h-auto w-full rounded-none border-0 bg-transparent px-0 py-1 text-sm text-[var(--ink)] shadow-none focus-visible:ring-0 dark:bg-transparent data-placeholder:text-[var(--mid)]"
@@ -110,23 +138,27 @@ export function Admission() {
           <Button
             type="button"
             onClick={() => {
-              if (all) setSent(true);
+              if (!all) return;
+              window.location.href = mailto;
+              setPrepared(true);
             }}
+            disabled={!all}
             className="alfa-submit mono mt-8 flex h-auto items-center justify-between rounded-none px-6 py-5 text-[13px] tracking-[0.14em]"
             style={{
-              border: `1px solid ${all || sent ? "var(--accent)" : "var(--line)"}`,
-              background: sent ? "var(--accent)" : "transparent",
-              color: sent ? "var(--accent-ink)" : "var(--ink)",
+              border: `1px solid ${all || prepared ? "var(--accent)" : "var(--line)"}`,
+              background: prepared ? "var(--accent)" : "transparent",
+              color: prepared ? "var(--accent-ink)" : all ? "var(--ink)" : "var(--mid)",
+              opacity: all || prepared ? 1 : 0.65,
               transition:
                 "background 0.5s cubic-bezier(0.16,1,0.3,1),color 0.5s cubic-bezier(0.16,1,0.3,1)",
             }}
           >
             <span>
-              {sent
-                ? "RECIBIDO · TE CONTACTAMOS EN 48 H"
+              {prepared
+                ? "CORREO PREPARADO · CONFIRMA EL ENVÍO"
                 : all
-                  ? "CHECKLIST COMPLETO · ENVIAR"
-                  : "ENVIAR SOLICITUD"}
+                  ? "ABRIR CORREO PARA ENVIAR"
+                  : "COMPLETA LOS DATOS PARA CONTINUAR"}
             </span>
             <span aria-hidden>→</span>
           </Button>
